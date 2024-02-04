@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 Route::get('/', function () {
@@ -25,7 +28,16 @@ require __DIR__ . '/auth.php';
 /**
  * Admin Group
  */
+
+Route::middleware('guest')->prefix('admin')->as('admin.')->group(function () {
+
+    Route::get('login', [AdminController::class, 'login'])
+        ->name('login');
+});
+
+
 Route::middleware(['auth', 'roles:admin'])->prefix('admin')->as('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [AdminController::class, 'destroy'])->name('logout');
 });
