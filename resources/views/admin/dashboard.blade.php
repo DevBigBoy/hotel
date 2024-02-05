@@ -8,10 +8,14 @@
     <!--favicon-->
     <link rel="icon" href="{{ asset('backend/assets/images/favicon-32x32.png') }}" type="image/png" />
     <!--plugins-->
+    <link rel="stylesheet" href="{{ asset('backend/assets/plugins/notifications/css/lobibox.min.css') }}" />
+
     <link href="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('backend/assets/css/toastr.min.css') }}" rel="stylesheet" />
+
     <!-- loader-->
     <link href="{{ asset('backend/assets/css/pace.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('backend/assets/js/pace.min.js') }}"></script>
@@ -21,10 +25,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/icons.css') }}" rel="stylesheet">
+
     <!-- Theme Style CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/dark-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/semi-dark.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/header-colors.css') }}" />
+    @stack('css')
     <title> Dashboard </title>
 </head>
 
@@ -82,11 +88,45 @@
     <script src="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('backend/assets/plugins/chartjs/js/chart.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/toastr.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/index.js') }}"></script>
+    <!--notification js -->
+    <script src="{{ asset('backend/assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/notifications/js/notifications.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
     <script>
         new PerfectScrollbar(".app-container")
+    </script>
+
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                round_error_noti("{{ $error }}")
+            @endforeach
+        @endif
+
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    round_info_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'success':
+                    round_success_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'warning':
+                    round_warning_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'error':
+                    round_error_noti(" {{ Session::get('message') }} ")
+                    break;
+            }
+        @endif
     </script>
 
     @stack('scripts')

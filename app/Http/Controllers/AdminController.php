@@ -31,4 +31,10 @@ class AdminController extends Controller
 
         return to_route('admin.login');
     }
+
+    public function profile()
+    {
+        $admin = Auth::user();
+        return view('admin.profile', compact('admin'));
+    }
 }

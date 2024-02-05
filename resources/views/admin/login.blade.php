@@ -63,8 +63,9 @@
                                             <!-- Email Phone -->
                                             <div class="col-12">
                                                 <label for="login" class="form-label">Email Or Phone</label>
-                                                <input type="text" class="form-control" id="login"
-                                                    placeholder="Email or Phone number" name="login"
+                                                <input type="text"
+                                                    class="form-control @error('login') is-invalid @enderror"
+                                                    id="login" placeholder="Email or Phone number" name="login"
                                                     value="{{ old('login') }}">
 
                                                 @error('login')

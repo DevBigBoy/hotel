@@ -54,69 +54,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item dropdown dropdown-app">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"
-                            href="javascript:;"><i class='bx bx-grid-alt'></i></a>
-                        <div class="dropdown-menu dropdown-menu-end p-0">
-                            <div class="app-container p-2 my-2">
-                                <div class="row gx-0 gy-2 row-cols-3 justify-content-center p-2">
-
-
-                                    <div class="col">
-                                        <a href="javascript:;">
-                                            <div class="app-box text-center">
-                                                <div class="app-icon">
-                                                    <img src="{{ asset('backend/assets/images/app/behance.png') }}"
-                                                        width="30" alt="">
-                                                </div>
-                                                <div class="app-name">
-                                                    <p class="mb-0 mt-1">Behance</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col">
-                                        <a href="javascript:;">
-                                            <div class="app-box text-center">
-                                                <div class="app-icon">
-                                                    <img src="{{ asset('backend/assets/images/app/google-drive.png') }}"
-                                                        width="30" alt="">
-                                                </div>
-                                                <div class="app-name">
-                                                    <p class="mb-0 mt-1">Dribble</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col">
-                                        <a href="javascript:;">
-                                            <div class="app-box text-center">
-                                                <div class="app-icon">
-                                                    <img src="{{ asset('backend/assets/images/app/outlook.png') }}"
-                                                        width="30" alt="">
-                                                </div>
-                                                <div class="app-name">
-                                                    <p class="mb-0 mt-1">Outlook</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-
-
-
-
-
-
-
-
-                                </div><!--end row-->
-
-                            </div>
-                        </div>
-                    </li>
 
                     <li class="nav-item dropdown dropdown-large">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
@@ -146,17 +83,14 @@
                                     </div>
                                 </a>
 
-
-
-
                                 <a class="dropdown-item" href="javascript:;">
                                     <div class="d-flex align-items-center">
                                         <div class="notify bg-light-success text-success"><i
                                                 class='bx bx-check-square'></i>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="msg-name">Your item is shipped <span
-                                                    class="msg-time float-end">5 hrs
+                                            <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5
+                                                    hrs
                                                     ago</span></h6>
                                             <p class="msg-info">Successfully shipped your item</p>
                                         </div>
@@ -175,6 +109,7 @@
                                         </div>
                                     </div>
                                 </a>
+
                                 <a class="dropdown-item" href="javascript:;">
                                     <div class="d-flex align-items-center">
                                         <div class="user-online">
@@ -292,8 +227,7 @@
                 <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"
                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                    <img src="{{ asset('backend/assets/images/avatars/avatar-2.png') }}" class="user-img"
-                        alt="user avatar">
+                    <img src="{{ asset(Auth::user()->photo) }}" class="user-img" alt="user avatar">
 
                     <div class="user-info">
                         <p class="user-name mb-0">{{ Auth::user()->name }}</p>
@@ -303,7 +237,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:;">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
                             <i class="bx bx-user fs-5"></i><span>Profile</span>
                         </a>
                     </li>
@@ -325,7 +259,6 @@
 
                     <li>
                         <form action="{{ route('admin.logout') }}" method="POST">
-
                             @csrf
                             <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}"
                                 onclick="event.preventDefault(); this.closest('form').submit();">

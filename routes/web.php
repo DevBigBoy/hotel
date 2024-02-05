@@ -40,4 +40,6 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->as('admin.')->group
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AdminController::class, 'destroy'])->name('logout');
+
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 });
