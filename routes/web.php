@@ -30,7 +30,6 @@ require __DIR__ . '/auth.php';
  */
 
 Route::middleware('guest')->prefix('admin')->as('admin.')->group(function () {
-
     Route::get('login', [AdminController::class, 'login'])
         ->name('login');
 });

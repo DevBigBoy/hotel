@@ -15,7 +15,7 @@ class AdminController extends Controller
 
     public function login()
     {
-        return view('admin.login');
+        return view('admin.auth.login');
     }
 
     /**
@@ -35,6 +35,6 @@ class AdminController extends Controller
     public function profile()
     {
         $admin = Auth::user();
-        return view('admin.profile', compact('admin'));
+        return view('admin.profile.index', compact('admin'));
     }
 }
