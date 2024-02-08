@@ -247,8 +247,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:;">
-                            <i class="bx bx-home-circle fs-5"></i><span>Dashboard</span>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('home') }}">
+                            <i class="bx bx-home-circle fs-5"></i><span>Wesite</span>
                         </a>
                     </li>
 

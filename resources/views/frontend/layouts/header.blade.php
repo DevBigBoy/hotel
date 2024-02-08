@@ -13,18 +13,30 @@
             <div class="col-lg-9 col-md-10">
                 <div class="header-right">
                     <ul>
-                        <li>
-                            <i class='bx bx-home-alt'></i>
-                            <a href="#">123 Nasser City, Cairo, Egypt</a>
-                        </li>
-                        <li>
-                            <i class='bx bx-phone-call'></i>
-                            <a href="tel:+1-(123)-456-7890">+1 (123) 456 7890</a>
-                        </li>
-                        <li>
-                            <i class='bx bx-envelope'></i>
-                            <a href="mailto:hello@atoli.com">almasahotel@atoli.com</a>
-                        </li>
+
+                        @if (Route::has('login'))
+                            @auth
+                                <li>
+                                    <i class='bx bxs-dashboard bx-tada-hover'></i> <a
+                                        href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">Dashboard</a>
+                                </li>
+                            @else
+                                <li>
+                                    <i class='bx bx-user bx-tada-hover'></i>
+                                    <a href="{{ route('login') }}">Login</a>
+                                </li>
+
+                                @if (Route::has('register'))
+                                    <li>
+                                        <i class='bx bx-user-plus bx-tada-hover'></i>
+                                        <a href="{{ route('register') }}">
+                                            Register
+                                        </a>
+
+                                    </li>
+                                @endif
+                            @endauth
+                        @endif
                     </ul>
                 </div>
             </div>

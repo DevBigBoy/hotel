@@ -4,38 +4,38 @@
 
 @section('content')
     <!-- Banner Area -->
-    @include('frontend.pages.banner-area')
+    @include('frontend.home.banner-area')
     <!-- Banner Area End -->
 
     <!-- Banner Form Area -->
-    @include('frontend.pages.banner-form')
+    @include('frontend.home.banner-form')
     <!-- Banner Form Area End -->
 
     <!-- Room Area -->
-    @include('frontend.pages.room')
+    @include('frontend.home.room')
     <!-- Room Area End -->
 
     <!-- Book Area Two-->
-    @include('frontend.pages.book')
+    @include('frontend.home.book')
     <!-- Book Area Two End -->
 
     <!-- Services Area Three -->
-    @include('frontend.pages.services')
+    @include('frontend.home.services')
     <!-- Services Area Three End -->
 
     <!-- Team Area Three -->
-    @include('frontend.pages.team')
+    @include('frontend.home.team')
     <!-- Team Area Three End -->
 
     <!-- Testimonials Area Three -->
-    @include('frontend.pages.testimonials')
+    @include('frontend.home.testimonials')
     <!-- Testimonials Area Three End -->
 
     <!-- FAQ Area -->
-    @include('frontend.pages.faq')
+    @include('frontend.home.faq')
     <!-- FAQ Area End -->
 
     <!-- Blog Area -->
-    @include('frontend.pages.blog')
+    @include('frontend.home.blog')
     <!-- Blog Area End -->
 @endsection
