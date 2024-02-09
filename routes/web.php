@@ -2,23 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\Profile\ProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('frontend.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/profile/logout', [ProfileController::class, 'logout'])->name('profile.logout');
+
+    Route::get('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.password');
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 });
 
 require __DIR__ . '/auth.php';

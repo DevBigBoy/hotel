@@ -31,13 +31,15 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
     <!-- Theme Dark CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/theme-dark.css') }}">
+    <!--plugins-->
+    <link rel="stylesheet" href="{{ asset('backend/assets/plugins/notifications/css/lobibox.min.css') }}" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('frontend/assets/img/favicon.png') }}">
 
     @stack('styles')
 
-    <title>Al-Masa Hotel </title>
+    <title>@yield('page-title', 'Al-Masa Hotel') </title>
 </head>
 
 <body>
@@ -86,8 +88,42 @@
     <script src="{{ asset('frontend/assets/js/form-validator.min.js') }}"></script>
     <!-- Contact Form JS -->
     <script src="{{ asset('frontend/assets/js/contact-form-script.js') }}"></script>
+    <!--notification js -->
+    <script src="{{ asset('backend/assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/notifications/js/notifications.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
+
     <!-- Custom JS -->
     <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
+
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                round_error_noti("{{ $error }}")
+            @endforeach
+        @endif
+
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    round_info_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'success':
+                    round_success_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'warning':
+                    round_warning_noti(" {{ Session::get('message') }} ")
+                    break;
+
+                case 'error':
+                    round_error_noti(" {{ Session::get('message') }} ")
+                    break;
+            }
+        @endif
+    </script>
 
     @stack('scripts')
 </body>

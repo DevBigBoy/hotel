@@ -1,5 +1,6 @@
 @extends('frontend.layouts.master')
 
+@section('page-title', 'Login')
 
 @section('content')
     <!-- Inner Banner -->

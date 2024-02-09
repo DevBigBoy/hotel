@@ -1,5 +1,6 @@
 @extends('frontend.layouts.master')
 
+@section('page-title', 'Register')
 
 @section('content')
     <!-- Inner Banner -->
@@ -8,7 +9,7 @@
             <div class="inner-title">
                 <ul>
                     <li>
-                        <a href="index.html">Home</a>
+                        <a href="{{ route('home') }}">Home</a>
                     </li>
                     <li><i class='bx bx-chevron-right'></i></li>
                     <li>Sign Up</li>

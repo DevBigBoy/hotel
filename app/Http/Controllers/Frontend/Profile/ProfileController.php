@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend\Profile;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\Frontend\Profile\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -17,7 +18,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('frontend.profile.edit', [
             'user' => $request->user(),
         ]);
     }
@@ -27,18 +28,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        // Get the authenticated user
         $user = $request->user();
 
         // old photo if it exists
         $old_image = $user->photo;
 
         // Fill the user model with validated data except for the image
-        $user->fill($request->except('photo'));
+        $user->fill($request->except('photo', 'role'));
 
         // Check if an image is uploaded
         $new_image = $this->uploadImage($request);
-
 
         if ($new_image) {
             $user->photo = $new_image;
@@ -103,5 +102,24 @@ class ProfileController extends Controller
 
             return $path;
         }
+    }
+
+    public function changePassword()
+    {
+        return view('frontend.profile.change-password');
+    }
+
+    /**
+     * Destroy an authenticated session.
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }
