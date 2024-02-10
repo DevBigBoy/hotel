@@ -57,15 +57,15 @@
                                     </div>
 
                                     <div class="form-body">
-                                        <form class="row g-3" action="{{ route('login') }}" method="POST">
+                                        <form class="row g-3" action="{{ route('admin.login.store') }}" method="POST">
                                             @csrf
 
-                                            <!-- Email Phone -->
+                                            <!-- Email Or Phone -->
                                             <div class="col-12">
                                                 <label for="login" class="form-label">Email Or Phone</label>
-                                                <input type="text"
-                                                    class="form-control @error('login') is-invalid @enderror"
-                                                    id="login" placeholder="Email or Phone number" name="login"
+
+                                                <input type="text" @class(['form-control', 'is-invalid' => $errors->has('login')]) id="login"
+                                                    placeholder="Email or Phone number" name="login"
                                                     value="{{ old('login') }}">
 
                                                 @error('login')
@@ -77,13 +77,18 @@
                                             <div class="col-12">
                                                 <label for="password" class="form-label">Password</label>
                                                 <div class="input-group" id="show_hide_password">
-                                                    <input type="password" class="form-control border-end-0"
-                                                        id="password" placeholder="Enter Password" name="password">
+                                                    <input type="password" @class([
+                                                        'form-control',
+                                                        'border-end-0',
+                                                        'is-invalid' => $errors->has('password'),
+                                                    ]) id="password"
+                                                        placeholder="Enter Password" name="password">
                                                     <a href="javascript:;" class="input-group-text bg-transparent">
                                                         <i class="bx bx-hide">
                                                         </i>
                                                     </a>
                                                 </div>
+
                                                 @error('password')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -110,13 +115,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
-                                                <div class="text-center ">
-                                                    <p class="mb-0">Don't have an account yet?
-                                                        <a href="{{ route('register') }}">Sign up here</a>
-                                                    </p>
-                                                </div>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -155,6 +153,7 @@
             });
         });
     </script>
+
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 </body>

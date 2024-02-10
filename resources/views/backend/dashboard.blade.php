@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('backend.layouts.master')
 
 @section('content')
     <div class="page-content">

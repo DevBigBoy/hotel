@@ -27,38 +27,69 @@
                 <div class="col-lg-3">
                     @include('frontend.profile.partials.user-sidebar')
                 </div>
-
                 <div class="col-lg-9">
                     <div class="service-article">
                         <section class="checkout-area pb-70">
                             <div class="container">
-                                <form>
+                                <form method="post" action="{{ route('password.update') }}">
+                                    @csrf
+                                    @method('put')
+
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12">
                                             <div class="billing-details">
-                                                <h3 class="title">User Profile</h3>
+                                                <h3 class="title">Update Password</h3>
 
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6">
+                                                    <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label>Password
+                                                            <label for="update_password_current_password">
+                                                                Current Password
                                                                 <span class="required">*</span></label>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
+                                                            </label>
+                                                            <input id="update_password_current_password"
+                                                                name="current_password" type="password"
+                                                                @class([
+                                                                    'form-control',
+                                                                    'is-invalid' => $errors->getBag('updatePassword')->first('current_password'),
+                                                                ]) />
 
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Password
-                                                                <span class="required">*</span></label>
-                                                            <input type="text" class="form-control" />
+                                                            @error('current_password', 'updatePassword')
+                                                                <span class="text text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label>Password</label>
-                                                            <input type="text" class="form-control" />
+                                                            <label for="update_password_password">New Password
+                                                                <span class="required">*</span></label>
+                                                            <input id="update_password_password" name="password"
+                                                                type="password" @class([
+                                                                    'form-control',
+                                                                    'is-invalid' => $errors->getBag('updatePassword')->first('password'),
+                                                                ]) />
+                                                            @error('password', 'updatePassword')
+                                                                <span class="text text-danger">{{ $message }}</span>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="update_password_password_confirmation">Confirm
+                                                                Password
+                                                                <span class="required">*</span></label>
+                                                            <input id="update_password_password_confirmation"
+                                                                name="password_confirmation" type="password"
+                                                                @class([
+                                                                    'form-control',
+                                                                    'is-invalid' => $errors->getBag('updatePassword')->first('password_confirmation'),
+                                                                ]) />
+                                                            @error('password_confirmation', 'updatePassword')
+                                                                <span class="text text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
 

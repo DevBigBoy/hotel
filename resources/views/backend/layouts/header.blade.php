@@ -237,13 +237,14 @@
 
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile.edit') }}">
                             <i class="bx bx-user fs-5"></i><span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="javascript:;">
-                            <i class="bx bx-cog fs-5"></i><span>Settings</span>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('admin.profile.password.edit') }}">
+                            <i class="bx bx-cog fs-5"></i><span>Change Password</span>
                         </a>
                     </li>
                     <li>
@@ -258,9 +259,10 @@
                     </li>
 
                     <li>
-                        <form action="{{ route('admin.logout') }}" method="POST">
+                        <form action="{{ route('admin.profile.logout') }}" method="POST">
                             @csrf
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}"
+                            <a class="dropdown-item d-flex align-items-center"
+                                href="{{ route('admin.profile.logout') }}"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
                                 <i class="bx bx-log-out-circle"></i><span>Logout</span>
                             </a>

@@ -21,17 +21,23 @@
                     <a href="{{ route('profile.edit') }}">User Profile </a>
                 </li>
 
+                <li class="{{ request()->routeIs('profile.booking') ? 'active' : '' }}">
+                    <a href="{{ route('profile.booking') }}">Booking Details </a>
+                </li>
+
                 <li class="{{ request()->routeIs('profile.password') ? 'active' : '' }}">
                     <a href="{{ route('profile.password') }}">Change Password</a>
                 </li>
 
+
                 <li>
-                    <form action="{{ route('profile.logout') }}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <a href="{{ route('profile.logout') }}"
+                        <a href="{{ route('logout') }}"
                             onclick="event.preventDefault(); this.closest('form').submit();">
                             <i class="bx bx-log-out-circle"></i><span>Logout</span>
                         </a>
+                    </form>
                 </li>
             </ul>
         </div>

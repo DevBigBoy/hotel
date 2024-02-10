@@ -30,20 +30,21 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/dark-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/semi-dark.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/header-colors.css') }}" />
-    @stack('css')
-    <title> Dashboard </title>
+    @stack('styles')
+
+    <title>@yield('page-title', 'Dashboard') </title>
 </head>
 
 <body>
     <!--wrapper-->
     <div class="wrapper">
         <!--sidebar wrapper -->
-        @include('admin.body.sidebar')
+        @include('backend.layouts.sidebar')
         <!--end sidebar wrapper -->
 
 
         <!--start header -->
-        @include('admin.body.header')
+        @include('backend.layouts.header')
         <!--end header -->
 
 
@@ -61,7 +62,7 @@
         <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
         <!--End Back To Top Button-->
 
-        @include('admin.body.footer')
+        @include('backend.layouts.footer')
     </div>
     <!--end wrapper-->
 

@@ -1,32 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Frontend\Profile;
+namespace App\Http\Controllers\Backend\Admin;
 
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\Frontend\Profile\ProfileUpdateRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function edit()
     {
-        return view('frontend.profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $admin = Auth::user();
+        return view('backend.admin.profile.edit', compact('admin'));
     }
+
 
     /**
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Get the authenticated user
         $user = $request->user();
 
         // old photo if it exists
@@ -37,6 +34,7 @@ class ProfileController extends Controller
 
         // Check if an image is uploaded
         $new_image = $this->uploadImage($request);
+
 
         if ($new_image) {
             $user->photo = $new_image;
@@ -66,6 +64,12 @@ class ProfileController extends Controller
     }
 
 
+    public function password()
+    {
+        $admin = Auth::user();
+        return view('backend.admin.profile.change-password', compact('admin'));
+    }
+
     public function uploadImage(Request $request)
     {
         if (!$request->hasFile('photo')) {
@@ -83,13 +87,18 @@ class ProfileController extends Controller
         }
     }
 
-    public function changePassword()
-    {
-        return view('frontend.profile.change-password');
-    }
 
-    public function booking()
+    /**
+     * Destroy an authenticated session.
+     */
+    public function logout(Request $request): RedirectResponse
     {
-        return view('frontend.profile.user-booking');
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return to_route('admin.login');
     }
 }
