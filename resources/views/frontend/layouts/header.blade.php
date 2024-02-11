@@ -20,6 +20,17 @@
                                     <i class='bx bxs-dashboard bx-tada-hover'></i> <a
                                         href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}">Dashboard</a>
                                 </li>
+
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <i class='bx bx-log-out'></i><span>Logout</span>
+                                        </a>
+                                    </form>
+
+                                </li>
                             @else
                                 <li>
                                     <i class='bx bx-user bx-tada-hover'></i>
