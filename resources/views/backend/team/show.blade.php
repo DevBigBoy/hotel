@@ -3,6 +3,7 @@
 @section('page-title')
     {{ $team->name }}
 @endsection
+
 @section('content')
     <div class="page-content">
         <!--breadcrumb-->

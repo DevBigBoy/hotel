@@ -39,24 +39,15 @@
          <li class="menu-label">UI Elements</li>
 
          <li>
-             <a href="javascript:;" class="has-arrow">
-                 <div class="parent-icon"><i class='bx bx-cart'></i>
+             <a href="{{ route('admin.bookarea.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bxs-bank'></i>
                  </div>
-                 <div class="menu-title">eCommerce</div>
+                 <div class="menu-title">Book Area</div>
              </a>
-             <ul>
-                 <li>
-                     <a href="ecommerce-products.html"><i class='bx bx-radio-circle'></i>Products
-                     </a>
-                 </li>
-                 <li>
-                     <a href="ecommerce-products-details.html"><i class='bx bx-radio-circle'></i>Product
-                         Details
-                     </a>
-                 </li>
-
-             </ul>
          </li>
+
+
 
          <li>
              <a class="has-arrow" href="javascript:;">
