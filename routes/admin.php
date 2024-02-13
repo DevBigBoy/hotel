@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardContoller;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ProfileController;
 use App\Http\Controllers\Backend\BookArea\BookAreaController;
+use App\Http\Controllers\Backend\RoomType\RoomTypeController;
 use App\Http\Controllers\Backend\Team\TeamController;
 
 Route::middleware('guest')->group(function () {
@@ -36,4 +37,6 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     Route::resource('teams', TeamController::class);
 
     Route::resource('bookarea', BookAreaController::class);
+
+    Route::resource('room-types', RoomTypeController::class);
 });

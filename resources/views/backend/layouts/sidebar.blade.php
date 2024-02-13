@@ -47,6 +47,15 @@
              </a>
          </li>
 
+         <li>
+             <a href="{{ route('admin.room-types.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bxs-alarm-add'></i>
+                 </div>
+                 <div class="menu-title">Manage Room Type</div>
+             </a>
+         </li>
+
 
 
          <li>
