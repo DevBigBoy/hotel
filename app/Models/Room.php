@@ -33,6 +33,13 @@ class Room extends Model
 
     public function facilities()
     {
-        return $this->belongsToMany(Facility::class, 'facility_room', 'room_id', 'facility_id');
+        return $this->belongsToMany(
+            Facility::class,   // related model
+            'facility_room',   // pivot Table
+            'room_id',         // FK in pivot table for the current model
+            'facility_id',     // FK in pivot table for related model
+            'id',              // PK for current model
+            'id'               // PK for related model
+        );
     }
 }

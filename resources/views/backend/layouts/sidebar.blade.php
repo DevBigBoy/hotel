@@ -36,7 +36,7 @@
 
 
 
-         <li class="menu-label">UI Elements</li>
+         <li class="menu-label">Manage Room</li>
 
          <li>
              <a href="{{ route('admin.bookarea.index') }}">
@@ -52,7 +52,7 @@
                  <div class="parent-icon">
                      <i class='bx bxs-extension'></i>
                  </div>
-                 <div class="menu-title">Manage Room</div>
+                 <div class="menu-title">Room</div>
              </a>
          </li>
 
@@ -61,7 +61,17 @@
                  <div class="parent-icon">
                      <i class='bx bxs-alarm-add'></i>
                  </div>
-                 <div class="menu-title">Manage Room Type</div>
+                 <div class="menu-title"> Room Type</div>
+             </a>
+         </li>
+
+
+         <li>
+             <a href="{{ route('admin.facilities.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bxs-fridge'></i>
+                 </div>
+                 <div class="menu-title">Facility</div>
              </a>
          </li>
 
