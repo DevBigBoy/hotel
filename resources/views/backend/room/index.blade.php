@@ -41,7 +41,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Type</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Actions</th>
@@ -53,12 +53,12 @@
                                     <tr>
                                         <th scope="row">{{ $room->id }}</th>
 
-                                        <td>{{ $room->name }}</td>
+                                        <td>{{ $room->room_type_id }}</td>
 
-                                        <td>{{ $room->description }}</td>
+                                        <td>{{ $room->short_desc }}</td>
 
                                         <td class="text-center lh-lg">
-                                            @if ($room->status == 'active')
+                                            @if ($room->status == 'available')
                                                 <span class="badge text-bg-primary p-2 fs-6 mt-2">Active</span>
                                             @else
                                                 <span class="badge text-bg-danger p-2 fs-6 mt-2">archived</span>
@@ -85,7 +85,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center p-2">
+                                        <td colspan="5" class="text-center p-2">
                                             No data available in table
                                         </td>
                                     </tr>

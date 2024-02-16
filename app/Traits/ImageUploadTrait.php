@@ -25,6 +25,25 @@ trait ImageUploadTrait
         }
     }
 
+    public function uploadMultiImages(Request $request, $inputName, $folder)
+    {
+        $files = $request->file($inputName);
+
+        $images_path = [];
+
+        if ($files) {
+            foreach ($files as $file) {
+                $path = $file->store($folder, [
+                    'disk' => 'public'
+                ]);
+
+                $images_path[] = $path;
+            }
+        }
+
+        return $images_path;
+    }
+
     public function UpdateImage(Request $request, $inputName, $oldImage, $folder)
     {
         if (!$request->hasFile($inputName)) {

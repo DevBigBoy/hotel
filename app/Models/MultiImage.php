@@ -14,4 +14,9 @@ class MultiImage extends Model
         'image_path',
         'is_main',
     ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id');
+    }
 }

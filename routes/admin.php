@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Backend\DashboardContoller;
+use App\Http\Controllers\Backend\Room\RoomController;
+use App\Http\Controllers\Backend\Team\TeamController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ProfileController;
+use App\Http\Controllers\Backend\Room\MultiImageController;
 use App\Http\Controllers\Backend\BookArea\BookAreaController;
 use App\Http\Controllers\Backend\facility\FacilityController;
-use App\Http\Controllers\Backend\Room\RoomController;
 use App\Http\Controllers\Backend\RoomType\RoomTypeController;
-use App\Http\Controllers\Backend\Team\TeamController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'login'])
@@ -42,9 +43,10 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
     Route::resource('room-types', RoomTypeController::class)->except(['show']);
 
-    Route::post('rooms/upload-images', [RoomController::class, 'uploadImages'])->name('rooms.uploadImages');
-
-    Route::resource('rooms', RoomController::class);
-
     Route::resource('facilities', FacilityController::class)->except(['show']);
+
+    Route::resource('rooms', RoomController::class)->except(['show']);
+
+    Route::post('multi-images/{room}', [MultiImageController::class, 'store'])->name('multi-images.store');
+    Route::delete('multi-images/{room}/{multiImage}', [MultiImageController::class, 'destroy'])->name('multi-images.destroy');
 });

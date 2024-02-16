@@ -73,7 +73,7 @@
         <!--end breadcrumb-->
         <div class="row">
             <div class="col-md-12 col-md-12 mx-auto mt-3">
-                <h6 class="mb-0 text-uppercase">Primary Nav Tabs</h6>
+                <h6 class="mb-0 text-uppercase">Room Info</h6>
                 <hr>
                 <div class="card">
                     <div class="card-body">
@@ -84,30 +84,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="tab-icon"><i class="bx bx-home font-18 me-1"></i>
                                         </div>
-                                        <div class="tab-title">Home</div>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#roomimages" role="tab"
-                                    aria-selected="false" tabindex="-1">
-                                    <div class="d-flex align-items-center">
-                                        <div class="tab-icon">
-                                            <i class="bx bx-images font-18 me-1"></i>
-                                        </div>
-                                        <div class="tab-title">Room Images</div>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#primaryprofile" role="tab"
-                                    aria-selected="false" tabindex="-1">
-                                    <div class="d-flex align-items-center">
-                                        <div class="tab-icon"><i class="bx bx-user-pin font-18 me-1"></i>
-                                        </div>
-                                        <div class="tab-title">Profile</div>
+                                        <div class="tab-title">Basic</div>
                                     </div>
                                 </a>
                             </li>
@@ -134,6 +111,9 @@
                                                     <option value="{{ $room_type->id }}">{{ $room_type->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('room_type_id')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6">
@@ -145,8 +125,10 @@
                                                     <option value="">Choose...</option>
                                                     <option value="available">available</option>
                                                     <option value="archived">archived</option>
-
                                                 </select>
+                                                @error('status')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <!-- -->
@@ -154,18 +136,27 @@
                                                 <label for="room_capacity" class="form-label">Room Capacity</label>
                                                 <input type="number" class="form-control" name="capacity"
                                                     id="room_capacity" placeholder="Room Capacity">
+                                                @error('capacity')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-4">
                                                 <label for="total_adults" class="form-label">Total Adult</label>
                                                 <input type="number" name="total_adults" class="form-control"
                                                     id="total_adults" placeholder="Total Adult">
+                                                @error('total_adults')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-4">
                                                 <label for="total_children" class="form-label">Total Child</label>
                                                 <input type="number" name="total_children" class="form-control"
                                                     id="total_children" placeholder="Total Child">
+                                                @error('total_children')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <!-- -->
 
@@ -173,6 +164,7 @@
                                                 <h5>Main Image <span class="required text-danger">*</span>
                                                 </h5>
                                             </div>
+
                                             <!-- Image -->
                                             <div class="col-md-12 mt-0">
                                                 <div id="image-preview" class="image-preview">
@@ -188,106 +180,95 @@
                                             </div>
 
                                             <div class="col-md-12">
-                                                <label for="input11" class="form-label">Short Description</label>
-                                                <textarea class="form-control" name="short_desc" id="input11" placeholder="Short Description..." rows="3"></textarea>
+                                                <label for="short_desc" class="form-label">Short Description</label>
+                                                <textarea class="form-control" name="short_desc" id="short_desc" placeholder="Short Description..." rows="3"></textarea>
+                                                @error('short_desc')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-12">
                                                 <label for="description" class="form-label">Long Description</label>
                                                 <x-forms.tinymce-editor name="description" />
+                                                @error('description')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
 
-
-                                            <div class="col-md-12">
-
-                                                <label for="multiImg" class="form-label">Gallery Image </label>
-
-                                                <input type="file" name="multi_img[]" class="form-control" multiple
-                                                    id="multiImg" accept="image/jpeg, image/jpg, image/gif, image/png">
-
-                                                <div class="row mt-2" id="preview_img"></div>
-
-                                            </div>
 
                                             <div class="col-md-6">
-                                                <label for="input7" class="form-label">Bed Style</label>
+                                                <label for="input7" class="form-label">
+                                                    Bed Style <span class="required text-danger">*</span>
+                                                </label>
                                                 <select id="input7" class="form-select" name="bed_style">
                                                     <option value="">Choose...</option>
                                                     <option value="queen">Queen Bed</option>
                                                     <option value="twin">Twin Bed</option>
                                                     <option value="king">King Bed</option>
                                                 </select>
+                                                @error('bed_style')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="input7" class="form-label">Room View</label>
+                                                <label for="input7" class="form-label">
+                                                    Room View <span class="required text-danger">*</span>
+                                                </label>
                                                 <select id="input7" class="form-select" name="view">
                                                     <option value="">Choose...</option>
                                                     <option value="see">Sea View</option>
                                                     <option value="hill">Hill View</option>
                                                 </select>
+                                                @error('view')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <!-- -->
                                             <div class="col-md-4">
-                                                <label for="price" class="form-label">Room Price</label>
-                                                <input type="number" name="price_per_night" class="form-control"
+                                                <label for="price" class="form-label">Room Price <span
+                                                        class="required text-danger">*</span></label>
+                                                <input type="number" name="price_per_night" @class([
+                                                    'form-control',
+                                                    'is-invalid' => $errors->has('price_per_night'),
+                                                ])
                                                     id="price" placeholder="Room Price">
+                                                @error('price_per_nights')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="discount" class="form-label">Discount %</label>
-                                                <input type="number" class="form-control" id="discount"
+                                                <label for="discount" class="form-label">Discount % </label>
+                                                <input type="number" @class(['form-control', 'is-invalid' => $errors->has('discount')]) id="discount"
                                                     name="discount" placeholder="discount %">
+
+                                                @error('discount')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <!-- -->
                                             <div class="col-md-4">
-                                                <label for="size" class="form-label">Size</label>
-                                                <input type="text" name="size" class="form-control" id="size"
-                                                    placeholder="size">
+                                                <label for="size" class="form-label">Size <span
+                                                        class="required text-danger">*</span></label>
+                                                <input type="text" name="size" @class(['form-control', 'is-invalid' => $errors->has('size')])
+                                                    id="size" placeholder="size">
+
+                                                @error('size')
+                                                    <span class="text text-danger text-center">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
-
-
                                             <div class="col-md-12">
-                                                <label for="facilities" class="form-label">Facilities</label>
-
-                                                <div id="facilities">
-                                                    @foreach ($facilities as $facility)
-                                                        <div class="form-check form-check-info">
-                                                            <input type="checkbox" class="form-check-input"
-                                                                name="facilities[]" value="{{ $facility->id }}"
-                                                                id="facility{{ $facility->id }}">
-
-                                                            <label class="form-check-label"
-                                                                for="facility{{ $facility->id }}">
-                                                                {{ $facility->name }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="col-md-12">
-                                                <button type="submit" class="btn btn-primary px-4">Submit</button>
+                                                <button type="submit" class="btn btn-primary px-4">Save</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
 
                             </div>
-
-                            <div class="tab-pane fade" id="roomimages" role="tabpanel">
-                                <!-- -->
-                            </div>
-
-                            <div class="tab-pane fade" id="primaryprofile" role="tabpanel">
-                                <!-- -->
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -299,37 +280,6 @@
 
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#multiImg').on('change', function() { //on file input change
-                if (window.File && window.FileReader && window.FileList && window
-                    .Blob) //check File API supported browser
-                {
-                    var data = $(this)[0].files; //this file data
-
-                    $.each(data, function(index, file) { //loop though each file
-                        if (/(\.|\/)(gif|jpe?g|png)$/i.test(file
-                                .type)) { //check supported file type
-                            var fRead = new FileReader(); //new filereader
-                            fRead.onload = (function(file) { //trigger function on successful read
-                                return function(e) {
-                                    var img = $('<img/>').addClass('thumb').attr('src',
-                                            e.target.result).width(100)
-                                        .height(80); //create image element
-                                    $('#preview_img').append(
-                                        img); //append image to output element
-                                };
-                            })(file);
-                            fRead.readAsDataURL(file); //URL representing the file's data.
-                        }
-                    });
-
-                } else {
-                    alert("Your browser doesn't support File API!"); //if File API is absent
-                }
-            });
-        });
-    </script>
     <x-head.tinymce-config />
 
     <x-head.imagepreview-config />
