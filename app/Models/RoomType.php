@@ -13,4 +13,9 @@ class RoomType extends Model
         'name',
         'status',
     ];
+
+    public function room()
+    {
+        return $this->hasOne(Room::class, 'room_type_id', 'id');
+    }
 }

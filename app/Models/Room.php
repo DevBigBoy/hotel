@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Room extends Model
 {
@@ -25,6 +26,16 @@ class Room extends Model
         'status'
     ];
 
+    public function roomType()
+    {
+        return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+    }
+
+
+    public function roomNumbers()
+    {
+        return $this->hasMany(RoomNumber::class);
+    }
 
     public function images()
     {

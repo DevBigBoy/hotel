@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\Admin\ProfileController;
 use App\Http\Controllers\Backend\Room\MultiImageController;
 use App\Http\Controllers\Backend\BookArea\BookAreaController;
 use App\Http\Controllers\Backend\facility\FacilityController;
+use App\Http\Controllers\Backend\RoomNumber\RoomNumberController;
 use App\Http\Controllers\Backend\RoomType\RoomTypeController;
 
 Route::middleware('guest')->group(function () {
@@ -37,9 +38,7 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
         Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
     });
 
-    Route::resource('teams', TeamController::class);
 
-    Route::resource('bookarea', BookAreaController::class);
 
     Route::resource('room-types', RoomTypeController::class)->except(['show']);
 
@@ -49,4 +48,15 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
     Route::post('multi-images/{room}', [MultiImageController::class, 'store'])->name('multi-images.store');
     Route::delete('multi-images/{room}/{multiImage}', [MultiImageController::class, 'destroy'])->name('multi-images.destroy');
+
+    Route::resource('room-numbers', RoomNumberController::class)->except('show');
+
+    /**
+     *
+     * Frontend
+     */
+
+    Route::resource('teams', TeamController::class);
+
+    Route::resource('bookarea', BookAreaController::class);
 });
