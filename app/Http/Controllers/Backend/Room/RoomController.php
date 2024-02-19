@@ -110,8 +110,15 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Room $room)
     {
-        //
+        $room->delete();
+
+        $notification = [
+            'message' => 'Room Deleted successfully!',
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->route('admin.rooms.index')->with($notification);
     }
 }
