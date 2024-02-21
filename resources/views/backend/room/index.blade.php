@@ -42,7 +42,12 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Description</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Total Adults</th>
+                                    <th scope="col">Total children</th>
+                                    <th scope="col">Capacity</th>
+                                    <th scope="col">ALL Rooms</th>
+                                    <th scope="col">Avaliable Rooms</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -53,9 +58,20 @@
                                     <tr>
                                         <th scope="row">{{ $room->id }}</th>
 
-                                        <td>{{ $room->room_type_id }}</td>
+                                        <td>{{ $room->roomType->name ?? 'N/A' }}</td>
+                                        <td>
+                                            <img src="{{ asset('storage/' . $room->image) }}" width="100px" alt="">
+                                        </td>
 
-                                        <td>{{ $room->short_desc }}</td>
+                                        <td>{{ $room->total_adults ?? 'N/A' }}</td>
+
+                                        <td>{{ $room->total_children ?? 'N/A' }}</td>
+
+                                        <td>{{ $room->capacity ?? 'N/A' }}</td>
+
+                                        <td>{{ $room->roomNumbers->count() ?? 'N/A' }}</td>
+
+                                        <td>{{ $room->available_room_numbers_count ?? 'N/A' }}</td>
 
                                         <td class="text-center lh-lg">
                                             @if ($room->status == 'available')

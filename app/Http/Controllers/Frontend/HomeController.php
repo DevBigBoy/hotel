@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\BookArea;
+use App\Models\Room;
 use App\Models\Team;
+use App\Models\BookArea;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -13,11 +14,16 @@ class HomeController extends Controller
     {
         $teams = Team::active()->latest()->get();
         $bookArea = BookArea::latest()->first();
+        $rooms = Room::with(['roomType', 'roomNumbers'])
+            ->withAvailableRoomNumbersCount()
+            ->limit(4)
+            ->get();
         return view(
             'frontend.index',
             [
                 'teams' => $teams,
-                'bookarea' => $bookArea
+                'bookarea' => $bookArea,
+                'rooms' => $rooms
             ]
         );
     }

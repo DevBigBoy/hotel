@@ -19,7 +19,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::get();
+        $rooms = Room::with(['roomType', 'roomNumbers'])
+            ->withAvailableRoomNumbersCount()
+            ->get();
         return view('backend.room.index', compact('rooms'));
     }
 

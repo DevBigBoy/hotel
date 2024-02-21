@@ -22,7 +22,7 @@
 
             <div class="ms-auto">
                 <div class="btn-group">
-                    @if ($rooms)
+                    @if ($rooms->isNotEmpty())
                         <a href="{{ route('admin.room-numbers.create') }}" class="btn btn-primary">
                             <i class='bx bx-plus'></i>
                             New Room Number

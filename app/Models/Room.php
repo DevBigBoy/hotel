@@ -53,4 +53,11 @@ class Room extends Model
             'id'               // PK for related model
         );
     }
+
+    public function scopeWithAvailableRoomNumbersCount($query)
+    {
+        return $query->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
+            $query->where('status', 'available');
+        }]);
+    }
 }
