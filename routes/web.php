@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\Profile\ProfileController;
+use App\Http\Controllers\Frontend\Room\RoomsController;
 use App\Http\Requests\Frontend\Profile\ProfileUpdateRequest;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,5 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('mybookings', [ProfileController::class, 'booking'])->name('profile.booking');
 });
+
+Route::get('rooms', [RoomsController::class, 'index'])->name('rooms.index');
+Route::get('rooms/{room}', [RoomsController::class, 'show'])->name('rooms.show');
 
 require __DIR__ . '/auth.php';
