@@ -13,7 +13,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-5 col-md-4 p-0">
                                 <div class="room-card-img">
-                                    <a href="room-details.html">
+                                    <a href="{{ route('rooms.show', $room->id) }}">
                                         <img src="{{ asset('storage/' . $room->image) }}" alt="Images">
                                     </a>
                                 </div>
@@ -22,7 +22,8 @@
                             <div class="col-lg-7 col-md-8 p-0">
                                 <div class="room-card-content">
                                     <h3>
-                                        <a href="room-details.html">{{ $room->roomType->name }} Room</a>
+                                        <a href="{{ route('rooms.show', $room->id) }}">{{ $room->roomType->name }}
+                                            Room</a>
                                     </h3>
 
                                     <span>{{ $room->price_per_night }} L.E / Per Night </span>
@@ -47,7 +48,7 @@
                                         <li><i class='bx bxs-hotel'></i> {{ $room->bed_style }}</li>
                                     </ul>
 
-                                    <a href="room-details.html" class="book-more-btn">
+                                    <a href="{{ route('rooms.show', $room->id) }}" class="book-more-btn">
                                         Book Now
                                     </a>
                                 </div>
