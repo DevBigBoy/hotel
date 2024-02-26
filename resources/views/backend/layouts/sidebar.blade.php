@@ -83,6 +83,25 @@
              </a>
          </li>
 
+         <li class="menu-label">Blog</li>
+
+         <li>
+             <a href="{{ route('admin.blog_categories.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bxs-cube'></i>
+                 </div>
+                 <div class="menu-title">Blog Categories</div>
+             </a>
+         </li>
+
+         <li>
+             <a href="{{ route('admin.posts.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bx-blanket'></i>
+                 </div>
+                 <div class="menu-title">Posts</div>
+             </a>
+         </li>
 
      </ul>
      <!--end navigation-->

@@ -100,7 +100,8 @@
                                 <a class="dropdown-item" href="javascript:;">
                                     <div class="d-flex align-items-center">
                                         <div class="notify bg-light-primary">
-                                            <img src="assets/images/app/github.png" width="25" alt="user avatar">
+                                            <img src="{{ asset('backend/assets/images/app/github.png') }}"
+                                                width="25" alt="user avatar">
                                         </div>
                                         <div class="flex-grow-1">
                                             <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
@@ -113,8 +114,8 @@
                                 <a class="dropdown-item" href="javascript:;">
                                     <div class="d-flex align-items-center">
                                         <div class="user-online">
-                                            <img src="assets/images/avatars/avatar-8.png" class="msg-avatar"
-                                                alt="user avatar">
+                                            <img src="{{ asset('backend/assets/images/avatars/avatar-8.png') }}"
+                                                class="msg-avatar" alt="user avatar">
                                         </div>
                                         <div class="flex-grow-1">
                                             <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs

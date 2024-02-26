@@ -78,7 +78,6 @@
 
     <!--end switcher-->
 
-
     <!-- Bootstrap JS -->
     <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
     <!--plugins-->
