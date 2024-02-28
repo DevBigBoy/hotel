@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('page-title', 'Create Post')
+@section('page-title', 'Edit Post')
 
 @push('styles')
     <style type="text/css">
@@ -53,7 +53,7 @@
                                 <i class="bx bx-home-alt"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Create Post</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Post</li>
                     </ol>
                 </nav>
             </div>
@@ -78,14 +78,16 @@
                             <div class="col-xl-12 mx-auto">
                                 <div class="card">
                                     <div class="card-header px-4 py-3">
-                                        <h5 class="mb-0">New Post</h5>
+                                        <h5 class="mb-0">Edit Post</h5>
                                     </div>
 
                                     <div class="card-body p-4">
-                                        <form method="POST" action="{{ route('admin.posts.store') }}"
-                                            enctype="multipart/form-data" class="row g-3 needs-validation">
+                                        <form method="POST" action="{{ route('admin.posts.update', $post->id) }}"
+                                            enctype="multipart/form-data" class="row">
                                             @csrf
+                                            @method('PUT')
 
+                                            <!-- Image -->
                                             <div class="col-md-12">
                                                 <div id="image-preview" class="image-preview">
                                                     <label for="image-upload" id="image-label">
@@ -99,10 +101,11 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-12">
+                                            <!-- Title -->
+                                            <div class="col-md-12 mt-3">
                                                 <label for="title" class="form-label">Title</label>
                                                 <input type="text" @class(['form-control', 'is-invalid' => $errors->has('title')]) id="title"
-                                                    value="{{ old('title') }}" name="title" required="">
+                                                    value="{{ $post->title }}" name="title">
 
                                                 @error('title')
                                                     <div class="invalid-feedback">
@@ -112,15 +115,13 @@
                                             </div>
 
                                             <!-- Category Name -->
-
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-3">
                                                 <label for="category_id" class="form-label">Category</label>
-                                                <select id="category_id" class="form-select" required=""
-                                                    name="category_id">
-                                                    <option selected="" disabled="" value="">Choose...
-                                                    </option>
+                                                <select id="category_id" @class(['form-select', 'is-invalid' => $errors->has('category_id')]) name="category_id">
+
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        <option @selected($post->category_id === $category->id) value="{{ $category->id }}">
+                                                            {{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -132,13 +133,12 @@
                                             </div>
 
                                             <!-- status -->
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-3">
                                                 <label for="status" class="form-label">status</label>
-                                                <select id="status" class="form-select" required="" name="status">
-                                                    <option selected="" disabled="" value="">Choose...
+                                                <select id="status" @class(['form-select', 'is-invalid' => $errors->has('status')]) name="status">
+                                                    <option @selected($post->status === 'published') value="published">published
                                                     </option>
-                                                    <option value="published">published</option>
-                                                    <option value="draft">draft</option>
+                                                    <option @selected($post->status === 'draft') value="draft">draft</option>
                                                 </select>
                                                 @error('status')
                                                     <div class="invalid-feedback">
@@ -147,19 +147,13 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="col-md-12">
+                                            <!-- Post Body -->
+                                            <div class="col-md-12 mt-3">
                                                 <label for="body" class="form-label">Body</label>
-
-                                                <x-forms.tinymce-editor name="body" />
-
-                                                @error('body')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
+                                                <x-forms.tinymce-editor name="body" value="{!! $post->body !!}" />
                                             </div>
 
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-4">
                                                 <div class="d-md-flex d-grid align-items-center gap-3">
                                                     <button type="submit" class="btn btn-primary px-4">Save</button>
                                                 </div>
@@ -179,6 +173,16 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.image-preview').css({
+                'background-image': 'url({{ asset('storage/uploads/' . $post->image) }})',
+                'background-size': 'cover',
+                'background-position': 'center center'
+            })
+        })
+    </script>
+
     <x-head.tinymce-config />
 
     <x-head.imagepreview-config />

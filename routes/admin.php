@@ -53,10 +53,7 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
     Route::resource('room-numbers', RoomNumberController::class)->except('show');
 
-    /**
-     *
-     * Frontend
-     */
+    /** * Frontend  */
 
     Route::resource('teams', TeamController::class);
     Route::resource('bookarea', BookAreaController::class);
