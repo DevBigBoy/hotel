@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\CheckAvailabilityContorller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\Post\PostController;
 use App\Http\Controllers\Frontend\Profile\ProfileController;
 use App\Http\Controllers\Frontend\Room\RoomsController;
 
@@ -22,9 +23,15 @@ Route::middleware('auth')->group(function () {
     Route::get('mybookings', [ProfileController::class, 'booking'])->name('profile.booking');
 });
 
+Route::get('checkAvailability', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
+
+/** Rooms */
 Route::get('rooms', [RoomsController::class, 'index'])->name('rooms.index');
 Route::get('rooms/{room}', [RoomsController::class, 'show'])->name('rooms.show');
 
-Route::get('checkAvailability', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
+/** Posts */
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
 
 require __DIR__ . '/auth.php';

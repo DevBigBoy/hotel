@@ -112,10 +112,10 @@ class PostController extends Controller
         }
 
         $post->update([
-            'title' => $post['title'],
-            'body' => $post['body'],
-            'category_id' => $post['category_id'],
-            'status' => $post['status'],
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'category_id' => $data['category_id'],
+            'status' => $data['status'],
             'image' => $imagePath,
         ]);
 

@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\BookArea;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -18,12 +19,19 @@ class HomeController extends Controller
             ->withAvailableRoomNumbersCount()
             ->limit(4)
             ->get();
+
+        $posts = Post::where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
         return view(
             'frontend.index',
             [
                 'teams' => $teams,
                 'bookarea' => $bookArea,
-                'rooms' => $rooms
+                'rooms' => $rooms,
+                'posts' => $posts,
             ]
         );
     }
