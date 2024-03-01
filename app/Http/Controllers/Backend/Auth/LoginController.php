@@ -27,8 +27,11 @@ class LoginController extends Controller
          */
 
         $home = '';
+
         if ($request->user()->role === 'admin') {
             $home = '/admin/dashboard';
+        } elseif ($request->user()->role === 'sales') {
+            $home = '/dashboard';
         } elseif ($request->user()->role === 'user') {
             $home = '/dashboard';
         }

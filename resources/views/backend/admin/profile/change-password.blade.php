@@ -29,7 +29,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="{{ asset(Auth::user()->photo) }}" alt="Admin"
+                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Admin"
                                         class="rounded-circle p-1 bg-primary" width="110">
 
                                     <div class="mt-3">
@@ -49,9 +49,9 @@
                                 <h5 class="card-title">Update Password</h5>
                             </div>
 
-                            <form method="post" action="{{ route('password.update') }}">
+                            <form method="post" action="{{ route('admin.password.update') }}">
                                 @csrf
-                                @method('PUT')
+                                @method('put')
                                 <div class="card-body">
 
                                     <div class="row mb-3">
@@ -116,10 +116,6 @@
                                 </div>
                             </form>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>

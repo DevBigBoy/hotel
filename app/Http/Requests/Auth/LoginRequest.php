@@ -60,6 +60,10 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        if ($user->status != 'active') {
+            # code...
+        }
+
         Auth::login($user, $this->boolean('remember'));
 
         RateLimiter::clear($this->throttleKey());

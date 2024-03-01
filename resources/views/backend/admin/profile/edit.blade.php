@@ -66,8 +66,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="{{ asset(Auth::user()->photo) }}" alt="Admin"
-                                        class="rounded-circle p-1 bg-primary" width="110">
+                                    <img src="{{ asset('storage/' . $admin->photo) }}" class="rounded-circle p-1 bg-primary"
+                                        width="120px" height="120px">
 
                                     <div class="mt-3">
                                         <h4>{{ $admin->name }}</h4>
@@ -184,15 +184,11 @@
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-9 text-secondary">
                                             <button type="submit" class="btn btn-primary px-4">Save Changes</button>
-
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -219,7 +215,7 @@
 
         $(document).ready(function() {
             $('.image-preview').css({
-                'background-image': 'url({{ asset($admin->photo) }})',
+                'background-image': 'url({{ asset('storage/' . $admin->photo) }})',
                 'background-size': 'cover',
                 'background-position': 'center center'
             })

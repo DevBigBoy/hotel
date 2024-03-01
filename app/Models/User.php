@@ -47,12 +47,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function getPhotoAttribute($value)
-    {
-        if (! $value) {
-            return  'no_image.jpg';
-        }
+    // public function getPhotoAttribute($value)
+    // {
+    //     if (! $value) {
+    //         return  'no_image.jpg';
+    //     }
 
-        return 'storage/' . $value;
-    }
+    //     return 'storage/' . $value;
+    // }
 }

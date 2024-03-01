@@ -89,9 +89,11 @@
                                                 class='bx bx-check-square'></i>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5
-                                                    hrs
-                                                    ago</span></h6>
+                                            <h6 class="msg-name">
+                                                Your item is shipped
+                                                <span class="msg-time float-end">
+                                                    5 hrs ago</span>
+                                            </h6>
                                             <p class="msg-info">Successfully shipped your item</p>
                                         </div>
                                     </div>
@@ -228,7 +230,7 @@
                 <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"
                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                    <img src="{{ asset(Auth::user()->photo) }}" class="user-img" alt="user avatar">
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="user-img" alt="user avatar">
 
                     <div class="user-info">
                         <p class="user-name mb-0">{{ Auth::user()->name }}</p>
@@ -243,8 +245,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('admin.profile.password.edit') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.password.edit') }}">
                             <i class="bx bx-cog fs-5"></i><span>Change Password</span>
                         </a>
                     </li>
@@ -261,10 +262,9 @@
                     </li>
 
                     <li>
-                        <form action="{{ route('admin.profile.logout') }}" method="POST">
+                        <form action="{{ route('admin.logout') }}" method="POST">
                             @csrf
-                            <a class="dropdown-item d-flex align-items-center"
-                                href="{{ route('admin.profile.logout') }}"
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
                                 <i class="bx bx-log-out-circle"></i><span>Logout</span>
                             </a>
