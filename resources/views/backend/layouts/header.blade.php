@@ -49,8 +49,9 @@
 
                         </ul>
                     </li>
-                    <li class="nav-item dark-mode d-none d-sm-flex">
-                        <a class="nav-link dark-mode-icon" href="javascript:;"><i class='bx bx-moon'></i>
+                    <li class="nav-item dark-mode d-none d-sm-flex" id="toggle-dark-mode">
+                        <a class="nav-link dark-mode-icon" href="javascript:;">
+                            <i class='bx bx-moon'></i>
                         </a>
                     </li>
 
@@ -167,6 +168,7 @@
                                         </div>
                                     </div>
                                 </a>
+
                                 <a class="dropdown-item" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="position-relative">
@@ -205,9 +207,6 @@
                                         </div>
                                     </div>
                                 </a>
-
-
-
 
 
                             </div>

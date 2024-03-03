@@ -32,8 +32,7 @@
 
         <!--end breadcrumb-->
         <div class="row">
-            <div class="col-md-10 col-md-10 mx-auto mt-3">
-
+            <div class="col-md-12 mx-auto mt-3">
                 <h6 class="mb-0 text-uppercase">All Room Types</h6>
                 <hr>
                 <div class="card">
@@ -56,13 +55,13 @@
 
                                         <td>{{ $type->name }}</td>
 
-                                        <td>{{ $type->description }}</td>
+                                        <td style="width: 400px">{{ $type->description }}</td>
 
                                         <td class="text-center lh-lg">
                                             @if ($type->status == 'active')
                                                 <span class="badge text-bg-primary p-2 fs-6 mt-2">Active</span>
                                             @else
-                                                <span class="badge text-bg-danger p-2 fs-6 mt-2">archived</span>
+                                                <span class="badge text-bg-danger p-2 fs-6 mt-2">Archived</span>
                                             @endif
                                         </td>
 
@@ -86,7 +85,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center p-2">
+                                        <td colspan="5" class="text-center p-2">
                                             No data available in table
                                         </td>
                                     </tr>

@@ -11,7 +11,8 @@ class RoomType extends Model
 
     protected $fillable = [
         'name',
-        'status',
+        'description',
+        'status' //'active', 'archived'
     ];
 
     public function room()

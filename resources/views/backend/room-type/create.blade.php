@@ -2,8 +2,6 @@
 
 @section('page-title', 'Room Type')
 
-
-
 @section('content')
     <div class="page-content">
         <!--breadcrumb-->
@@ -38,7 +36,7 @@
                 <div class="container">
                     <div class="main-body">
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-md-12">
 
                                 <div class="card">
                                     <div class="card-header">
@@ -66,6 +64,20 @@
                                             </div>
 
 
+                                            <!-- Description -->
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Description
+                                                    </h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <textarea name="description" @class(['form-control', 'is-invalid' => $errors->has('description')]) id="description" placeholder="description ..." rows="6"></textarea>
+
+                                                    @error('description')
+                                                        <span class="text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
                                             <div class="row mb-3">
                                                 <div class="col-sm-3">

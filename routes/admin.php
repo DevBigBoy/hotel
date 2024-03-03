@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\facility\FacilityController;
 use App\Http\Controllers\Backend\Post\PostController;
 use App\Http\Controllers\Backend\RoomNumber\RoomNumberController;
 use App\Http\Controllers\Backend\RoomType\RoomTypeController;
+use App\Http\Controllers\Backend\Settings\DarkModeController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'login'])->name('login');
@@ -34,11 +35,14 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     Route::get('psssword/edit', [ChangePasswordController::class, 'edit'])->name('password.edit');
     Route::put('psssword/update', [ChangePasswordController::class, 'update'])->name('password.update');
 
+    Route::post('/toggle-dark-mode', DarkModeController::class)->name('darkmode');
+
     Route::post('/logout', LogoutController::class)->name('logout');
 
 
-
+    /** Rooms */
     Route::resource('room-types', RoomTypeController::class)->except(['show']);
+
 
     Route::resource('facilities', FacilityController::class)->except(['show']);
 

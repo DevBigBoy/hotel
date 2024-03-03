@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if (Cookie::get('dark_mode', 'off') === 'on') class="dark-theme" @endif>
+
 
 <head>
     <!-- Required meta tags -->
@@ -129,6 +130,25 @@
         @endif
     </script>
 
+    <script>
+        document.getElementById('toggle-dark-mode').addEventListener('click', function() {
+            fetch('/admin/toggle-dark-mode', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.dark_mode === 'on') {
+                        document.documentElement.classList.add('dark-theme');
+                    } else {
+                        document.documentElement.classList.remove('light-theme');
+                    }
+                });
+        });
+    </script>
     @stack('scripts')
 </body>
 

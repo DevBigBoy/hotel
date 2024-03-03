@@ -30,8 +30,9 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request, RoomType $roomType)
     {
-        $validated   = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100', 'unique:room_types,name'],
+            'description' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:active,archived']
         ]);
 
@@ -58,8 +59,9 @@ class RoomTypeController extends Controller
      */
     public function update(Request $request, RoomType $roomType)
     {
-        $validated   = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100', 'unique:room_types,name,' . $roomType->id],
+            'description' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:active,archived']
         ]);
 
@@ -78,6 +80,15 @@ class RoomTypeController extends Controller
      */
     public function destroy(RoomType $roomType)
     {
+        if ($roomType->room()->count() > 0) {
+            $notification = [
+                'message' => 'You can not delete This Type Because It has rooms',
+                'alert-type' => 'Error'
+            ];
+
+            return redirect()->route('admin.room-types.index')->with($notification);
+        }
+
         $roomType->delete();
 
         $notification = [
