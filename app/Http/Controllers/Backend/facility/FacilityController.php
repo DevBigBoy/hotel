@@ -13,7 +13,8 @@ class FacilityController extends Controller
      */
     public function index(Facility $facility)
     {
-        return view('backend.facility.index')->with(['facilities' => $facility::all()]);
+        $facilities = $facility::select(['id', 'name'])->latest()->get();
+        return view('backend.facility.index')->with(['facilities' => $facilities]);
     }
 
     /**
@@ -29,7 +30,7 @@ class FacilityController extends Controller
      */
     public function store(Request $request, Facility $facility)
     {
-        $validated  = $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:facilities,name'],
         ]);
 
@@ -84,6 +85,15 @@ class FacilityController extends Controller
      */
     public function destroy(Facility $facility)
     {
+        if ($facility->rooms()->count() > 0) {
+            $notification = [
+                'message' => 'facility have rooms delete it first!',
+                'alert-type' => 'Error'
+            ];
+
+            return redirect()->route('admin.facilities.index')->with($notification);
+        }
+
         $facility->delete();
 
         $notification = [

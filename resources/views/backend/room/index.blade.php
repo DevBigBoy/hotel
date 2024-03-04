@@ -46,6 +46,8 @@
                                     <th scope="col">Total Adults</th>
                                     <th scope="col">Total children</th>
                                     <th scope="col">Capacity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Discount</th>
                                     <th scope="col">ALL Rooms</th>
                                     <th scope="col">Avaliable Rooms</th>
                                     <th scope="col">Status</th>
@@ -58,24 +60,29 @@
                                     <tr>
                                         <th scope="row">{{ $room->id }}</th>
 
-                                        <td>{{ $room->roomType->name ?? 'N/A' }}</td>
+                                        <td>{{ $room->room_type_name }}</td>
+
                                         <td>
-                                            <img src="{{ asset('storage/' . $room->image) }}" width="100px" alt="">
+                                            <img src="{{ asset('storage/' . $room->image) }}" width="150px" alt="">
                                         </td>
 
-                                        <td>{{ $room->total_adults ?? 'N/A' }}</td>
+                                        <td>{{ $room->total_adults }}</td>
 
-                                        <td>{{ $room->total_children ?? 'N/A' }}</td>
+                                        <td>{{ $room->total_children }}</td>
 
-                                        <td>{{ $room->capacity ?? 'N/A' }}</td>
+                                        <td>{{ $room->capacity }}</td>
 
-                                        <td>{{ $room->roomNumbers->count() ?? 'N/A' }}</td>
+                                        <td>{{ $room->price_per_night }}</td>
 
-                                        <td>{{ $room->available_room_numbers_count ?? 'N/A' }}</td>
+                                        <td>{{ $room->discount }}</td>
+
+                                        <td>{{ $room->room_numbers_count }}</td>
+
+                                        <td>{{ $room->available_room_numbers_count }}</td>
 
                                         <td class="text-center lh-lg">
                                             @if ($room->status == 'available')
-                                                <span class="badge text-bg-primary p-2 fs-6 mt-2">Active</span>
+                                                <span class="badge text-bg-primary p-2 fs-6 mt-2">available</span>
                                             @else
                                                 <span class="badge text-bg-danger p-2 fs-6 mt-2">archived</span>
                                             @endif
@@ -85,7 +92,6 @@
                                             <a href="{{ route('admin.rooms.edit', $room->id) }}"
                                                 class="btn btn-primary d-inline-block ">
                                                 <i class='bx bx-edit'></i>
-                                                edit
                                             </a>
 
                                             <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="post"
@@ -95,13 +101,14 @@
                                                 <a href="{{ route('admin.rooms.destroy', $room->id) }}"
                                                     onclick="event.preventDefault(); this.closest('form').submit();"
                                                     class="btn btn-danger">
-                                                    <i class='bx bx-trash'></i> delete </a>
+                                                    <i class='bx bx-trash'></i>
+                                                </a>
                                             </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center p-2">
+                                        <td colspan="12" class="text-center p-2">
                                             No data available in table
                                         </td>
                                     </tr>

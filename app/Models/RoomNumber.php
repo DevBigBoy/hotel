@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class RoomNumber extends Model
 {
     use HasFactory;
-
+    //'available', 'occupied', 'maintenance'
     protected $fillable = ['room_id', 'room_number', 'status'];
 
     public function room()

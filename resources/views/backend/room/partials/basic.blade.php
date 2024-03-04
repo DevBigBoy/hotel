@@ -176,7 +176,7 @@
                         @foreach ($facilities as $facility)
                             <div class="form-check form-check-info">
                                 <input type="checkbox" class="form-check-input" name="facilities[]"
-                                    value="{{ $facility->id }}" @checked(isset($room) && $room->facilities->pluck('id')->contains($facility->id))
+                                    value="{{ $facility->id }}" @checked(in_array($facility->id, $selectedFacilities))
                                     id="facility{{ $facility->id }}">
 
                                 <label class="form-check-label" for="facility{{ $facility->id }}">

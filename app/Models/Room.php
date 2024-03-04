@@ -18,12 +18,12 @@ class Room extends Model
         'image',
         'price_per_night',
         'size',
-        'view',
-        'bed_style',
+        'view', //['see', 'hill']
+        'bed_style', // ['queen', 'twin', 'king']
         'discount',
         'short_desc',
         'description',
-        'status'
+        'status' //['available', 'archived']
     ];
 
     public function roomType()
@@ -31,10 +31,9 @@ class Room extends Model
         return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
     }
 
-
     public function roomNumbers()
     {
-        return $this->hasMany(RoomNumber::class)->where('status', 'available');
+        return $this->hasMany(RoomNumber::class);
     }
 
     public function images()
@@ -54,10 +53,10 @@ class Room extends Model
         );
     }
 
-    public function scopeWithAvailableRoomNumbersCount($query)
-    {
-        return $query->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
-            $query->where('status', 'available');
-        }]);
-    }
+    // public function scopeWithAvailableRoomNumbersCount($query)
+    // {
+    //     return $query->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
+    //         $query->where('status', 'available');
+    //     }]);
+    // }
 }

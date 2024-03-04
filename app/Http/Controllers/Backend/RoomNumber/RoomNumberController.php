@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend\RoomNumber;
 
 use App\Models\Room;
 use App\Models\RoomNumber;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\RoomNumber\RoomNumberStoreRequest;
 use App\Http\Requests\Backend\RoomNumber\RoomNumberUpdateRequest;
@@ -17,7 +16,18 @@ class RoomNumberController extends Controller
     public function index()
     {
         $rooms = Room::exists();
-        $room_numbers = RoomNumber::with(['room.roomType'])->orderBy('room_id')->get();
+
+        $room_numbers = RoomNumber::with(
+            [
+                'room' => function ($query) {
+                    $query->select('id', 'room_type_id', 'total_adults', 'total_children');  // Only fetch necessary room columns
+                },
+                'room.roomType' => function ($query) {
+                    $query->select('id', 'name');  // Only fetch necessary room type columns
+                }
+            ]
+        )->orderBy('room_id')->get();
+
         return view('backend.room-number.index', compact('room_numbers', 'rooms'));
     }
 
@@ -26,7 +36,7 @@ class RoomNumberController extends Controller
      */
     public function create()
     {
-        $rooms = Room::with('roomType')->get();
+        $rooms = Room::with('roomType:id,name')->get();
         return view('backend.room-number.create', compact('rooms'));
     }
 
@@ -53,8 +63,7 @@ class RoomNumberController extends Controller
      */
     public function edit(RoomNumber $roomNumber)
     {
-        $rooms = Room::with('roomType')->get();
-
+        $rooms = Room::with('roomType:id,name')->get();
         return view('backend.room-number.edit', compact('rooms', 'roomNumber'));
     }
 

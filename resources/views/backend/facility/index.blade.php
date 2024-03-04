@@ -43,7 +43,6 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Slug</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
@@ -55,8 +54,6 @@
                                         <th scope="row">{{ $facility->id }}</th>
 
                                         <td>{{ $facility->name }}</td>
-
-                                        <td>{{ $facility->slug }}</td>
 
                                         <td>
                                             <a href="{{ route('admin.facilities.edit', $facility->id) }}"

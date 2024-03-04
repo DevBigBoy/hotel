@@ -13,7 +13,7 @@ class RoomTypeController extends Controller
      */
     public function index(RoomType $roomType)
     {
-        $types =  $roomType::latest()->get();
+        $types =  $roomType::select(['id', 'name', 'description'])->latest()->get();
         return view('backend.room-type.index', compact('types'));
     }
 

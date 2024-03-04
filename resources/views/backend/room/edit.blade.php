@@ -2,7 +2,6 @@
 
 @section('page-title', 'Rooms')
 
-
 @push('styles')
     <style type="text/css">
         #image-preview {
@@ -40,7 +39,6 @@
         }
     </style>
 @endpush
-
 
 @section('content')
     <div class="page-content">

@@ -5,23 +5,40 @@ namespace App\Http\Controllers\Backend\Room;
 use App\Models\Room;
 use App\Models\Facility;
 use App\Models\RoomType;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Room\RoomStoreRequest;
 use App\Http\Requests\Backend\Room\RoomUpdateRequest;
-use App\Traits\ImageUploadTrait;
+use App\Traits\FileControlTrait;
 
 class RoomController extends Controller
 {
-    use ImageUploadTrait;
+    use FileControlTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $rooms = Room::with(['roomType', 'roomNumbers'])
-            ->withAvailableRoomNumbersCount()
+        $rooms = Room::select([
+            'rooms.id',
+            'rooms.total_adults',
+            'rooms.total_children',
+            'rooms.capacity',
+            'rooms.image',
+            'rooms.price_per_night',
+            'rooms.discount',
+            'rooms.status'
+        ])
+            ->withCount([
+                'roomNumbers as room_numbers_count',  // Count all room numbers
+                'roomNumbers as available_room_numbers_count' => function ($query) {
+                    $query->where('status', 'available');  // Count only available rooms
+                }
+            ])
+            ->join('room_types', 'rooms.room_type_id', '=', 'room_types.id')
+            ->addSelect('room_types.name as room_type_name')  // Add room type name
             ->get();
+
         return view('backend.room.index', compact('rooms'));
     }
 
@@ -30,7 +47,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        $room_types = RoomType::get();
+        $room_types = RoomType::select(['id', 'name'])->get();
         return view('backend.room.create', compact('room_types'));
     }
 
@@ -39,16 +56,13 @@ class RoomController extends Controller
      */
     public function store(RoomStoreRequest $request)
     {
-        // Get all validated data except 'image'
         $validated = $request->validated();
 
-        $data = collect($validated)->except('image')->toArray();
-
         if ($request->hasFile('image')) {
-            $data['image'] = $this->uploadImage($request, 'image', 'uploads/room_images');
+            $validated['image'] = $this->uploadFile($request->file('image'), 'rooms');
         }
 
-        Room::create($data);
+        Room::create($validated);
 
         $notification = [
             'message' => 'Room Created successfully!',
@@ -64,16 +78,25 @@ class RoomController extends Controller
      */
     public function edit(string $id)
     {
-        $room_types = RoomType::get();
+        $room_types = RoomType::select(['id', 'name'])->get();
+        $facilities = Facility::select(['id', 'name'])->get();
 
-        $room = Room::with('images')->findOrFail($id);
+        $room = Room::with([
+            'images' => function ($query) {
+                $query->select('id', 'room_id', 'image_path');
+            },
+            'facilities'
+        ])->findOrFail($id);
 
-        $facilities = Facility::all();
+        // Collect the Ids of the room's crrent facilities to mark as checked
+        $selectedFacilities = $room->facilities->pluck('id')->toArray();
 
+        // Pass all required data to the view
         return view('backend.room.edit', [
             'room' => $room,
             'room_types' => $room_types,
-            'facilities' => $facilities
+            'facilities' => $facilities,
+            'selectedFacilities' => $selectedFacilities  // Pass selected facilities
         ]);
     }
 
@@ -82,16 +105,14 @@ class RoomController extends Controller
      */
     public function update(RoomUpdateRequest $request, Room $room)
     {
-
         $validated = $request->validated();
 
-        $data = collect($validated)->except('image')->toArray();
-
         if ($request->hasFile('image')) {
-            $data['image'] = $this->UpdateImage($request, 'image', $room->image, 'uploads/room_images');
+            $this->deleteFile($room->image);
+            $validated['image'] = $this->uploadFile($request->file('image'), 'rooms');
         }
 
-        $room->update($data);
+        $room->update($validated);
 
         // Sync facilities with the room
         if ($request->has('facilities')) {

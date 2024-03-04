@@ -2,8 +2,6 @@
 
 @section('page-title', 'Facilities')
 
-
-
 @section('content')
     <div class="page-content">
         <!--breadcrumb-->

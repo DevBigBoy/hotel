@@ -15,8 +15,9 @@ class HomeController extends Controller
     {
         $teams = Team::active()->latest()->get();
         $bookArea = BookArea::latest()->first();
+
         $rooms = Room::with(['roomType', 'roomNumbers'])
-            ->withAvailableRoomNumbersCount()
+            // ->withAvailableRoomNumbersCount()
             ->limit(4)
             ->get();
 

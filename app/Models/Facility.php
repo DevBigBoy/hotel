@@ -30,7 +30,6 @@ class Facility extends Model
 
     protected static function boot()
     {
-
         parent::boot();
 
         static::creating(function ($facility) {

@@ -5,32 +5,25 @@ namespace App\Http\Controllers\Backend\Room;
 use App\Models\Room;
 use App\Models\MultiImage;
 use Illuminate\Http\Request;
-use App\Traits\ImageUploadTrait;
 use App\Http\Controllers\Controller;
+use App\Traits\FileControlTrait;
 use Illuminate\Support\Facades\Storage;
 
 class MultiImageController extends Controller
 {
-    use ImageUploadTrait;
+    use FileControlTrait;
+
     public function store(Request $request, Room $room)
     {
-
         $validated = $request->validate([
             'multi_img' => ['required', 'array'],
-            'multi_img.*' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'multi_img.*' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
 
-        $image_paths = $this->uploadMultiImages($request, 'multi_img', 'uploads/room_images');
 
-
-        if ($image_paths) {
-            foreach ($image_paths as $path) {
-                MultiImage::create([
-                    'room_id' => $room->id,
-                    'image_path' => $path,
-                    'is_main' => false
-                ]);
-            }
+        foreach ($request->file('multi_img') as $image) {
+            $image_path = $this->uploadFile($image, 'rooms');
+            $room->images()->create(['image_path' => $image_path]);
         }
 
         $notification = [

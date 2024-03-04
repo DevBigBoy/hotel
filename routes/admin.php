@@ -42,16 +42,16 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
     /** Rooms */
     Route::resource('room-types', RoomTypeController::class)->except(['show']);
-
-
     Route::resource('facilities', FacilityController::class)->except(['show']);
-
     Route::resource('rooms', RoomController::class)->except(['show']);
-
     Route::post('multi-images/{room}', [MultiImageController::class, 'store'])->name('multi-images.store');
     Route::delete('multi-images/{room}/{multiImage}', [MultiImageController::class, 'destroy'])->name('multi-images.destroy');
-
     Route::resource('room-numbers', RoomNumberController::class)->except('show');
+
+
+
+
+
 
     /** * Frontend  */
 
