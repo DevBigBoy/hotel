@@ -73,27 +73,10 @@
                                                 </div>
                                                 <div class="col-sm-9 text-secondary">
                                                     <textarea name="description" @class(['form-control', 'is-invalid' => $errors->has('description')]) id="description" placeholder="description ..." rows="6">
-                                                        {{ $roomType->description }}
+                                                        {!! $roomType->description !!}
                                                     </textarea>
 
                                                     @error('description')
-                                                        <span class="text text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Status <span class="required text-danger">*</span>
-                                                    </h6>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <select class="form-select" id="input46" name="status">
-                                                        <option value="active" @selected($roomType->status == 'active')>Active</option>
-                                                        <option value="archived" @selected($roomType->status == 'archived')>Archived
-                                                        </option>
-                                                    </select>
-                                                    @error('status')
                                                         <span class="text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>

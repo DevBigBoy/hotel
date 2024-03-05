@@ -13,7 +13,9 @@ class FacilityController extends Controller
      */
     public function index(Facility $facility)
     {
-        $facilities = $facility::select(['id', 'name'])->latest()->get();
+        $facilities = $facility::select(['id', 'name', 'slug'])
+            ->latest()
+            ->paginate(10);
         return view('backend.facility.index')->with(['facilities' => $facilities]);
     }
 
@@ -31,7 +33,7 @@ class FacilityController extends Controller
     public function store(Request $request, Facility $facility)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:facilities,name'],
+            'name' => ['required', 'string', 'max:255', 'unique:facilities,slug'],
         ]);
 
         $facility::create(

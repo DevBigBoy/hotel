@@ -22,7 +22,17 @@ class FacilitiesTableSeeder extends Seeder
             ['name' => 'Spa'],
             ['name' => 'Restaurant'],
             ['name' => 'Air Conditioning'],
-            ['name' => 'Laundry Service']
+            ['name' => 'Flat-screen TV'],
+            ['name' => 'Terrace'],
+            ['name' => 'Minibar'],
+            ['name' => 'Telephone'],
+            ['name' => 'Tea/Coffee maker'],
+            ['name' => 'Private bathroom'],
+            ['name' => 'Patio'],
+            ['name' => 'View'],
+            ['name' => 'Balcony'],
+            ['name' => 'Electric kettle'],
+            ['name' => 'Wardrobe or closet'],
         ];
 
         foreach ($facilities as $facility) {

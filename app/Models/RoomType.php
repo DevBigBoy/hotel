@@ -12,11 +12,10 @@ class RoomType extends Model
     protected $fillable = [
         'name',
         'description',
-        'status' //'active', 'archived'
     ];
 
     public function room()
     {
-        return $this->hasOne(Room::class, 'room_type_id', 'id');
+        return $this->hasMany(Room::class, 'room_type_id', 'id');
     }
 }

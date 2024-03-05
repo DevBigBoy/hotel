@@ -79,22 +79,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Status <span class="required text-danger">*</span>
-                                                    </h6>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <select class="form-select" id="input46" name="status">
-                                                        <option value="">Select Status</option>
-                                                        <option value="active">Active</option>
-                                                        <option value="archived">Archived</option>
-                                                    </select>
-                                                    @error('status')
-                                                        <span class="text text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
 
                                             <div class="row">
                                                 <div class="d-md-flex d-grid align-items-center gap-3">

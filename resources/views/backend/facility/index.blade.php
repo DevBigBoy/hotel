@@ -32,7 +32,7 @@
 
         <!--end breadcrumb-->
         <div class="row">
-            <div class="col-md-10 col-md-10 mx-auto mt-3">
+            <div class="col-md-12 col-md-12 mx-auto mt-3">
 
                 <h6 class="mb-0 text-uppercase">Facilities</h6>
                 <hr>
@@ -43,17 +43,20 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Slug</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @forelse ($facilities as $facility)
+                                @forelse ($facilities as $key=> $facility)
                                     <tr>
-                                        <th scope="row">{{ $facility->id }}</th>
+                                        <th scope="row">{{ $key + 1 }}</th>
 
                                         <td>{{ $facility->name }}</td>
+
+                                        <td>{{ $facility->slug }}</td>
 
                                         <td>
                                             <a href="{{ route('admin.facilities.edit', $facility->id) }}"
@@ -85,6 +88,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $facilities->appends(request()->input())->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

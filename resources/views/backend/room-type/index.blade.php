@@ -43,7 +43,6 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Status</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -56,14 +55,6 @@
                                         <td>{{ $type->name }}</td>
 
                                         <td style="width: 400px">{{ $type->description }}</td>
-
-                                        <td class="text-center lh-lg">
-                                            @if ($type->status == 'active')
-                                                <span class="badge text-bg-primary p-2 fs-6 mt-2">Active</span>
-                                            @else
-                                                <span class="badge text-bg-danger p-2 fs-6 mt-2">Archived</span>
-                                            @endif
-                                        </td>
 
                                         <td>
                                             <a href="{{ route('admin.room-types.edit', $type->id) }}"
@@ -85,7 +76,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center p-2">
+                                        <td colspan="4" class="text-center p-2">
                                             No data available in table
                                         </td>
                                     </tr>

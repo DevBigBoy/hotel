@@ -18,8 +18,8 @@ class Room extends Model
         'image',
         'price_per_night',
         'size',
-        'view', //['see', 'hill']
-        'bed_style', // ['queen', 'twin', 'king']
+        'view',
+        'bed_style',
         'discount',
         'short_desc',
         'description',

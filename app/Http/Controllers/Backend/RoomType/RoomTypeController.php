@@ -13,7 +13,9 @@ class RoomTypeController extends Controller
      */
     public function index(RoomType $roomType)
     {
-        $types =  $roomType::select(['id', 'name', 'description'])->latest()->get();
+        $types =  $roomType::select(['id', 'name', 'description'])
+            ->latest()
+            ->get();
         return view('backend.room-type.index', compact('types'));
     }
 
@@ -33,7 +35,6 @@ class RoomTypeController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100', 'unique:room_types,name'],
             'description' => ['nullable', 'string', 'max:255'],
-            'status' => ['required', 'in:active,archived']
         ]);
 
         $roomType::create($validated);
@@ -62,7 +63,6 @@ class RoomTypeController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100', 'unique:room_types,name,' . $roomType->id],
             'description' => ['nullable', 'string', 'max:255'],
-            'status' => ['required', 'in:active,archived']
         ]);
 
         $roomType->update($validated);
