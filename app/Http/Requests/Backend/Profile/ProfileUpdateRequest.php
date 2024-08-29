@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Backend\Profile;
 
 use App\Models\User;
 use App\Rules\EgyptianPhoneNumber;

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
-class AdminController extends Controller
+class OldAdminController extends Controller
 {
 
 

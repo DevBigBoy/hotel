@@ -33,7 +33,12 @@ class LoginController extends Controller
             $home = '/dashboard';
         }
 
+        $notification = [
+            'message' => 'Sign In successfully!',
+            'alert-type' => 'success'
+        ];
+
         // return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->intended($home);
+        return redirect()->intended($home)->with($notification);
     }
 }

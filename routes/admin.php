@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Backend\DashboardContoller;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ProfileController;
+use App\Http\Controllers\Backend\Team\TeamController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'login'])
@@ -30,4 +31,6 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
         Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
     });
+
+    Route::resource('teams', TeamController::class);
 });
