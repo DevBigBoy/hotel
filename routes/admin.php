@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardContoller;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ProfileController;
 use App\Http\Controllers\Backend\BookArea\BookAreaController;
+use App\Http\Controllers\Backend\Room\RoomController;
 use App\Http\Controllers\Backend\RoomType\RoomTypeController;
 use App\Http\Controllers\Backend\Team\TeamController;
 
@@ -39,4 +40,7 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     Route::resource('bookarea', BookAreaController::class);
 
     Route::resource('room-types', RoomTypeController::class);
+
+    Route::post('rooms/upload-images', [RoomController::class, 'uploadImages'])->name('rooms.uploadImages');
+    Route::resource('rooms', RoomController::class);
 });

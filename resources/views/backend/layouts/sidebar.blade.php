@@ -48,6 +48,15 @@
          </li>
 
          <li>
+             <a href="{{ route('admin.rooms.index') }}">
+                 <div class="parent-icon">
+                     <i class='bx bxs-extension'></i>
+                 </div>
+                 <div class="menu-title">Manage Room</div>
+             </a>
+         </li>
+
+         <li>
              <a href="{{ route('admin.room-types.index') }}">
                  <div class="parent-icon">
                      <i class='bx bxs-alarm-add'></i>
@@ -58,19 +67,6 @@
 
 
 
-         <li>
-             <a class="has-arrow" href="javascript:;">
-                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
-                 </div>
-                 <div class="menu-title">Components</div>
-             </a>
-             <ul>
-                 <li>
-                     <a href="component-alerts.html"><i class='bx bx-radio-circle'></i>Alerts
-                     </a>
-                 </li>
-             </ul>
-         </li>
 
 
 

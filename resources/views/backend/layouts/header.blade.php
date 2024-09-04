@@ -248,7 +248,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('home') }}">
+                        <a class="dropdown-item d-flex align-items-center" target="_blanck"
+                            href="{{ route('home') }}">
                             <i class="bx bx-home-circle fs-5"></i><span>Wesite</span>
                         </a>
                     </li>

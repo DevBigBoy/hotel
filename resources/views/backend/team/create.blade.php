@@ -1,4 +1,5 @@
 @extends('backend.layouts.master')
+
 @push('styles')
     <style type="text/css">
         #image-preview {
