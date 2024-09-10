@@ -16,8 +16,9 @@ class RoomNumberController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with(['roomType', 'roomNumbers'])->get();
-        return view('backend.room-number.index', compact('rooms'));
+        $rooms = Room::exists();
+        $room_numbers = RoomNumber::with(['room.roomType'])->orderBy('room_id')->get();
+        return view('backend.room-number.index', compact('room_numbers', 'rooms'));
     }
 
     /**

@@ -34,7 +34,7 @@ class Room extends Model
 
     public function roomNumbers()
     {
-        return $this->hasMany(RoomNumber::class);
+        return $this->hasMany(RoomNumber::class)->where('status', 'available');
     }
 
     public function images()

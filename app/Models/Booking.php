@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\BookingRoom;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Booking extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'room_id',
+        'rooms_id',
         'user_id',
         'check_in',
         'check_out',
@@ -26,4 +27,9 @@ class Booking extends Model
         'person',
         'status'
     ];
+
+    public function booking_rooms()
+    {
+        return  $this->hasMany(BookingRoom::class, 'booking_id');
+    }
 }

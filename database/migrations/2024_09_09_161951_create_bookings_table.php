@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('room_type_id')->nullable()->constrained('room_types')->nullOnDelete();
+            $table->foreignId('rooms_id')->nullable()->constrained('rooms')->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
 
 
@@ -36,8 +36,8 @@ return new class extends Migration
             $table->enum('status', ['confirmed', 'cancelled', 'pending'])->default('pending');
             $table->timestamps();
 
+            $table->index('rooms_id');
             $table->index('user_id');
-            $table->index('room_type_id');
             $table->index('check_in_date');
             $table->index('status');
         });

@@ -22,7 +22,7 @@
 
             <div class="ms-auto">
                 <div class="btn-group">
-                    @if ($rooms->isNotEmpty())
+                    @if ($rooms)
                         <a href="{{ route('admin.room-numbers.create') }}" class="btn btn-primary">
                             <i class='bx bx-plus'></i>
                             New Room Number
@@ -53,50 +53,49 @@
                             </thead>
                             <tbody>
 
-                                @forelse ($rooms as $room)
-                                    @foreach ($room->roomNumbers as $roomNumber)
-                                        <tr>
-                                            <th scope="row">{{ $roomNumber->id }}</th>
+                                @forelse ($room_numbers as $room_number)
+                                    <tr>
+                                        <th scope="row">{{ $room_number->id }}</th>
 
-                                            <td>{{ $roomNumber->room_number }}</td>
+                                        <td>{{ $room_number->room_number }}</td>
 
-                                            <td>{{ $room->roomType->name ?? 'N/A' }}</td>
+                                        <td>{{ $room_number->room->roomType->name ?? 'N/A' }}</td>
 
-                                            <td>{{ $room->total_adults ?? 'N/A' }}</td>
+                                        <td>{{ $room_number->room->total_adults ?? 'N/A' }}</td>
 
-                                            <td>{{ $room->total_children ?? 'N/A' }}</td>
+                                        <td>{{ $room_number->room->total_children ?? 'N/A' }}</td>
 
-                                            <td class="text-center lh-lg">
+                                        <td class="text-center lh-lg">
 
-                                                @if ($roomNumber->status == 'available')
-                                                    <span class="badge text-bg-success p-2 fs-6 mt-2">Available</span>
-                                                @elseif ($roomNumber->status == 'occupied')
-                                                    <span class="badge text-bg-warning p-2 fs-6 mt-2">Occupied</span>
-                                                @else
-                                                    <span class="badge text-bg-danger p-2 fs-6 mt-2">Maintenance</span>
-                                                @endif
+                                            @if ($room_number->status == 'available')
+                                                <span class="badge text-bg-success p-2 fs-6 mt-2">Available</span>
+                                            @elseif ($room_number->status == 'occupied')
+                                                <span class="badge text-bg-warning p-2 fs-6 mt-2">Occupied</span>
+                                            @else
+                                                <span class="badge text-bg-danger p-2 fs-6 mt-2">Maintenance</span>
+                                            @endif
 
-                                            </td>
+                                        </td>
 
-                                            <td>
-                                                <a href="{{ route('admin.room-numbers.edit', $roomNumber->id) }}"
-                                                    class="btn btn-primary d-inline-block ">
-                                                    <i class='bx bx-edit'></i>
-                                                    edit
-                                                </a>
+                                        <td>
+                                            <a href="{{ route('admin.room-numbers.edit', $room_number->id) }}"
+                                                class="btn btn-primary d-inline-block ">
+                                                <i class='bx bx-edit'></i>
+                                                edit
+                                            </a>
 
-                                                <form action="{{ route('admin.room-numbers.destroy', $roomNumber->id) }}"
-                                                    method="post" class="d-inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="{{ route('admin.room-numbers.destroy', $roomNumber->id) }}"
-                                                        onclick="event.preventDefault(); this.closest('form').submit();"
-                                                        class="btn btn-danger">
-                                                        <i class='bx bx-trash'></i> delete </a>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                            <form action="{{ route('admin.room-numbers.destroy', $room_number->id) }}"
+                                                method="post" class="d-inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="{{ route('admin.room-numbers.destroy', $room_number->id) }}"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();"
+                                                    class="btn btn-danger">
+                                                    <i class='bx bx-trash'></i> delete </a>
+                                            </form>
+                                        </td>
+                                    </tr>
+
                                 @empty
                                     <tr>
                                         <td colspan="7" class="text-center p-2">
