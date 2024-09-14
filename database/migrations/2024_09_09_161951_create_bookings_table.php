@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('rooms_id')->nullable()->constrained('rooms')->nullOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
 
 
             $table->date('check_in_date')->nullable();
             $table->date('check_out_date')->nullable();
-            $table->integer('number_of_persons')->default(1);
-            $table->unsignedInteger('number_of_rooms')->default(1);
-            $table->unsignedInteger('total_night')->default(1);
+            $table->integer('number_of_persons')->default(0);
+            $table->unsignedInteger('number_of_rooms')->default(0);
+            $table->unsignedInteger('total_night')->default(0);
 
             $table->decimal('actual_price', 10, 2)->default(0);
             $table->decimal('subtotal', 10, 2)->default(0);

@@ -1,13 +1,13 @@
 <div class="banner-form-area">
     <div class="container">
         <div class="banner-form">
-            <form action="{{ route('checkAvailability') }}" method="Get">
+            <form action="{{ route('checkAvailability') }}" method="GET">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-3">
                         <div class="form-group">
                             <label>CHECK IN TIME</label>
                             <div class="input-group">
-                                <input autocomplete="off" type="text" name="check_in_date"
+                                <input autocomplete="off" id="check_in_date" type="text" name="check_in_date"
                                     class="form-control dt_picker" placeholder="yyy-mm-dd">
                                 <span class="input-group-addon"></span>
                             </div>

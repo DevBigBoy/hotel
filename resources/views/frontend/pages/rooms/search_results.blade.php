@@ -23,32 +23,39 @@
     <div class="room-area pt-100 pb-70">
         <div class="container">
             <div class="section-title text-center">
-                <span class="sp-color">ROOMS</span>
+                <span class="sp-color">Available Rooms</span>
                 <h2>Our Rooms & Rates</h2>
             </div>
 
+            <div>
+                <h3>Available Rooms</h3>
+                <p><strong>Check-in Date:</strong> {{ $check_in_date }}</p>
+                <p><strong>Check-out Date:</strong> {{ $check_out_date }}</p>
+                <p><strong>Number of Persons:</strong> {{ $number_of_persons }}</p>
+            </div>
             <div class="row pt-45">
-                @foreach ($rooms as $item)
-                    <div>
-                        <p>Room ID: {{ $item->id }}</p>
-                        <p>Total Room Numbers: {{ $item->room_numbers_count }}</p>
-                        <p>Available Rooms: {{ $item->available_rooms ?? 'N/A' }}</p>
-                    </div>
-                @endforeach
-
-                @foreach ($rooms as $room)
+                @forelse ($rooms as $room)
                     <div class="col-lg-4 col-md-6">
                         <div class="room-card">
                             <a href="{{ route('rooms.show', $room->id) }}">
                                 <img src="{{ asset('storage/' . $room->image) }}" height="300px" width="100%"
                                     alt="Images">
                             </a>
+
                             <div class="content">
-                                <h3><a href="{{ route('rooms.show', $room->id) }}">{{ $room->roomType->name }} Room</a></h3>
-                                <ul>
-                                    <li class="text-color">{{ $room->price_per_night }} L.E Per Night</li>
-                                    <li class="text-color">{{ $room->room_numbers_count }}</li>
-                                </ul>
+                                <h3>
+                                    <a href="{{ route('rooms.show', $room->id) }}">
+                                        {{ $room->roomType->name }}
+                                        Room
+                                    </a>
+                                </h3>
+
+                                <p class="card-text">
+                                    <strong class="text-color">Room Capacity:</strong> {{ $room->total_adults }} persons<br>
+                                    <strong class="text-color">Available Rooms:</strong> {{ $room->available_rooms }}<br>
+                                    <strong class="text-color">Price:</strong> ${{ $room->price_per_night }} per night
+                                </p>
+
                                 <div class="rating text-color">
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
@@ -59,10 +66,16 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-
-
+                @empty
             </div>
+
+            <div class="row pt-45">
+                <div>
+                    <h3>No rooms available for the selected dates and number of persons.</h3>
+                </div>
+            </div>
+            @endforelse
+
         </div>
     </div>
     <!-- Room Area End -->
