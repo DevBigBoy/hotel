@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\Blog\BlogCategoryController;
 use App\Http\Controllers\Backend\Room\MultiImageController;
 use App\Http\Controllers\Backend\BookArea\BookAreaController;
 use App\Http\Controllers\Backend\facility\FacilityController;
+use App\Http\Controllers\Backend\Post\PostController;
 use App\Http\Controllers\Backend\RoomNumber\RoomNumberController;
 use App\Http\Controllers\Backend\RoomType\RoomTypeController;
 
@@ -60,5 +61,5 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     Route::resource('teams', TeamController::class);
     Route::resource('bookarea', BookAreaController::class);
     Route::resource('blog_categories', BlogCategoryController::class)->except('show');
-    Route::resource('posts', BlogCategoryController::class);
+    Route::resource('posts', PostController::class);
 });

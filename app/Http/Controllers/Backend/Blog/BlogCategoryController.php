@@ -51,7 +51,7 @@ class BlogCategoryController extends Controller
      */
     public function edit(BlogCategory $blog_category)
     {
-        return response()->json($blog_category);
+        return view('backend.blog-category.edit', compact('blog_category'));
     }
 
     /**

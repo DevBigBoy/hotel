@@ -53,15 +53,11 @@
                                         <td>{{ $category->slug }}</td>
 
                                         <td>
-
-                                            <button type="button" class="btn btn-warning px-3" data-bs-toggle="modal"
-                                                data-bs-target="#category">
+                                            <a href="{{ route('admin.blog_categories.edit', $category->id) }}"
+                                                class="btn btn-warning px-3">
                                                 <i class='bx bx-edit'></i>
                                                 Edit
-                                            </button>
-
-                                            @include('backend.blog-category.edit')
-
+                                            </a>
                                             <form action="{{ route('admin.blog_categories.destroy', $category->id) }}"
                                                 method="post" class="d-inline-block">
                                                 @csrf
