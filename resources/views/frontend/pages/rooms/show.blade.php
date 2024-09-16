@@ -86,9 +86,8 @@
                                     </div>
                                 </div>
                             </form>
+
                         </div>
-
-
                     </div>
                 </div>
 
@@ -106,32 +105,20 @@
                                         alt="Images">
                                 </div>
                             @endforelse
-
                         </div>
 
-
-
-
-
                         <div class="room-details-title">
-                            <h2>{{ $room->short_desc }}</h2>
+                            <h2 style="max-width: 100%">{{ $room->short_desc }}</h2>
                             <ul>
-
                                 <li>
-                                    <b> Basic : L.E {{ $room->price_per_night }} /Night/Room</b>
+                                    <b> Basic : {{ $room->price_per_night }}L.E /Night/Room</b>
                                 </li>
-
                             </ul>
                         </div>
 
                         <div class="room-details-content">
 
                             {!! $room->description !!}
-
-
-
-
-
 
                             <div class="side-bar-plan">
                                 <h3>Basic Plan Facilities</h3>
@@ -142,14 +129,7 @@
 
                                 </ul>
 
-
                             </div>
-
-
-
-
-
-
 
                             <div class="row">
                                 <div class="col-lg-6">
@@ -169,8 +149,6 @@
                                                         <i class='bx bxs-cloud-download'></i>
                                                     </a>
                                                 </li>
-
-
                                             </ul>
                                         </div>
                                     </div>
@@ -204,8 +182,6 @@
 
                                 </div>
                             </div>
-
-
 
                         </div>
 
@@ -242,4 +218,68 @@
         </div>
     </div>
     <!-- Room Details Area End -->
+
+    <!-- Room Details Other -->
+    <div class="room-details-other pb-70">
+        <div class="container">
+            <div class="room-details-text">
+                <h2>Our Related Offer</h2>
+            </div>
+
+            <div class="row ">
+
+                @foreach ($other_rooms as $room)
+                    <div class="col-lg-6">
+                        <div class="room-card-two">
+                            <div class="row align-items-center">
+                                <div class="col-lg-5 col-md-4 p-0">
+                                    <div class="room-card-img">
+                                        <a href="{{ route('rooms.show', $room->id) }}">
+                                            <img src="{{ asset('storage/' . $room->image) }}" alt="Images">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-7 col-md-8 p-0">
+                                    <div class="room-card-content">
+                                        <h3>
+                                            <a href="{{ route('rooms.show', $room->id) }}">{{ $room->roomType->name }}
+                                                Room</a>
+                                        </h3>
+                                        <span>{{ $room->price_per_night }} / Per Night </span>
+                                        <div class="rating">
+                                            <i class="bx bxs-star"></i>
+                                            <i class="bx bxs-star"></i>
+                                            <i class="bx bxs-star"></i>
+                                            <i class="bx bxs-star"></i>
+                                            <i class="bx bxs-star"></i>
+                                        </div>
+                                        <p>
+                                            {!! Str::limit($room->short_desc, 150) !!}
+                                        </p>
+                                        <ul>
+                                            <li><i class="bx bx-user"></i> 4 Person</li>
+                                            <li><i class="bx bx-expand"></i> 35m2 / 376ft2</li>
+                                        </ul>
+
+                                        <ul>
+                                            <li><i class="bx bx-show-alt"></i> Sea Balcony</li>
+                                            <li><i class="bx bxs-hotel"></i> Kingsize / Twin</li>
+                                        </ul>
+
+                                        <a href="{{ route('rooms.show', $room->id) }}" class="book-more-btn">
+                                            Book Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Room Details Other -->
 @endsection

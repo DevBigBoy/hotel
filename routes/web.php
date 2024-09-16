@@ -23,11 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::get('mybookings', [ProfileController::class, 'booking'])->name('profile.booking');
 });
 
-Route::get('checkAvailability', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
 
 /** Rooms */
 Route::get('rooms', [RoomsController::class, 'index'])->name('rooms.index');
 Route::get('rooms/{room}', [RoomsController::class, 'show'])->name('rooms.show');
+Route::get('check_room_availability', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
 
 /** Posts */
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');

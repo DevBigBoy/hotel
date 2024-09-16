@@ -50,21 +50,8 @@
 
                         <li class="nav-item">
                             <a href="{{ route('rooms.index') }}" class="nav-link">
-                                All Rooms
-                                <i class='bx bx-chevron-down'></i>
+                                Our Rooms
                             </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="room.html" class="nav-link">
-                                        Rooms
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="room-details.html" class="nav-link">
-                                        Room Details
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
 
                         <li class="nav-item">

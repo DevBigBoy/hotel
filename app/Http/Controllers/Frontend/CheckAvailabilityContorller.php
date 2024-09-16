@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Log;
 use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\Booking;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Models\RoomBookedDate;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class CheckAvailabilityContorller extends Controller
@@ -90,7 +90,7 @@ class CheckAvailabilityContorller extends Controller
             ]);
         } catch (\Exception $e) {
             // Log error and return custom error message
-            \Log::error('Error checking availability: ' . $e->getMessage());
+            Log::error('Error checking availability: ' . $e->getMessage());
             abort(500, 'Something went wrong. Please try again later.');
         }
     }

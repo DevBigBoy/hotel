@@ -33,6 +33,7 @@
                 <p><strong>Check-out Date:</strong> {{ $check_out_date }}</p>
                 <p><strong>Number of Persons:</strong> {{ $number_of_persons }}</p>
             </div>
+
             <div class="row pt-45">
                 @forelse ($rooms as $room)
                     <div class="col-lg-4 col-md-6">
