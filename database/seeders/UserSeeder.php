@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
 
                 // admin
                 [
-                    'name' => 'almasa admin',
+                    'username' => 'almasa admin',
                     'email' => 'admin@gmail.com',
                     'password' => Hash::make('shezo123'),
                     'role' => 'admin',
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
                 ],
                 // user
                 [
-                    'name' => 'almasa user',
+                    'username' => 'almasa user',
                     'email' => 'user@gmail.com',
                     'password' => Hash::make('shezo123'),
                     'role' => 'user',

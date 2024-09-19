@@ -13,7 +13,7 @@
                     <li><i class='bx bx-chevron-right'></i></li>
                     <li>Room Details </li>
                 </ul>
-                <h3>Room Details</h3>
+                <h3>{{ $room->roomType->name }}</h3>
             </div>
         </div>
     </div>
@@ -30,11 +30,28 @@
                             <form>
                                 <div class="row align-items-center">
                                     <div class="col-lg-12">
+
                                         <div class="form-group">
-                                            <label>Check in</label>
+                                            <label>CHECK IN TIME</label>
                                             <div class="input-group">
-                                                <input id="datetimepicker" type="text" class="form-control"
-                                                    placeholder="09/29/2020">
+                                                <input autocomplete="off" id="check_in_date" type="text"
+                                                    name="check_in_date" class="form-control dt_picker"
+                                                    value="{{ old('check_in_date') ? date('Y-m-d', strtotime(old('check_in_date'))) : 'yyy-mm-dd' }}">
+                                                <span class="input-group-addon"></span>
+                                            </div>
+
+                                            <i class='bx bxs-calendar'></i>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>CHECK OUT TIME</label>
+                                            <div class="input-group">
+                                                <input autocomplete="off" class="form-control dt_picker" type="text"
+                                                    name="check_out_date"
+                                                    value="{{ old('check_out_date') ? date('Y-m-d', strtotime(old('check_out_date'))) : 'yyy-mm-dd' }}">
                                                 <span class="input-group-addon"></span>
                                             </div>
                                             <i class='bx bxs-calendar'></i>
@@ -43,25 +60,13 @@
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Check Out</label>
-                                            <div class="input-group">
-                                                <input id="datetimepicker-check" type="text" class="form-control"
-                                                    placeholder="09/29/2020">
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                            <i class='bx bxs-calendar'></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>Numbers of Persons</label>
-                                            <select class="form-control">
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>03</option>
-                                                <option>04</option>
-                                                <option>05</option>
+                                            <label>GUESTS</label>
+                                            <select class="form-control" name="number_of_persons">
+                                                <option @selected(old('number_of_persons') == '1')>01</option>
+                                                <option @selected(old('number_of_persons') == '2')>02</option>
+                                                <option @selected(old('number_of_persons') == '3')>03</option>
+                                                <option @selected(old('number_of_persons') == '4')>04</option>
+                                                <option @selected(old('number_of_persons') == '5')>04</option>
                                             </select>
                                         </div>
                                     </div>
@@ -69,12 +74,12 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label>Numbers of Rooms</label>
-                                            <select class="form-control">
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>03</option>
-                                                <option>04</option>
-                                                <option>05</option>
+                                            <select class="form-control" name="number_of_rooms">
+                                                <option value="1">01</option>
+                                                <option value="2">02</option>
+                                                <option value="3">03</option>
+                                                <option value="4">04</option>
+                                                <option value="5">05</option>
                                             </select>
                                         </div>
                                     </div>
@@ -94,21 +99,22 @@
                 <div class="col-lg-8">
                     <div class="room-details-article">
                         <div class="room-details-slider owl-carousel owl-theme">
-                            @forelse ($room->images as $image)
+                            <div class="room-details-item">
+                                <img src="{{ asset('storage/' . $room->image) }}" width="550" height="400px"
+                                    alt="Images">
+                            </div>
+
+                            @foreach ($room->images as $image)
                                 <div class="room-details-item">
-                                    <img src="{{ asset('storage/' . $image->image_path) }}" width="550px" height="400px"
-                                        alt="Images">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Images" width="550px"
+                                        height="400px">
                                 </div>
-                            @empty
-                                <div class="room-details-item">
-                                    <img src="{{ asset('storage/' . $room->image) }}" width="550" height="400px"
-                                        alt="Images">
-                                </div>
-                            @endforelse
+                            @endforeach
+
                         </div>
 
                         <div class="room-details-title">
-                            <h2 style="max-width: 100%">{{ $room->short_desc }}</h2>
+                            <h2 style="max-width: 100%">{{ $room->roomType->name }}</h2>
                             <ul>
                                 <li>
                                     <b> Basic : {{ $room->price_per_night }}L.E /Night/Room</b>

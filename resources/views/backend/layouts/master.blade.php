@@ -144,7 +144,7 @@
                     if (data.dark_mode === 'on') {
                         document.documentElement.classList.add('dark-theme');
                     } else {
-                        document.documentElement.classList.remove('light-theme');
+                        document.documentElement.classList.remove('dark-theme');
                     }
                 });
         });

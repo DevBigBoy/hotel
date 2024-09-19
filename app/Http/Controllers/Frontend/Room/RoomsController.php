@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend\Room;
 
 use App\Models\Room;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Psr7\Request;
 
 class RoomsController extends Controller
 {
@@ -26,22 +26,31 @@ class RoomsController extends Controller
         ]);
     }
 
-    public function show(string $roomId)
+    public function show(Request $request, string $roomId)
     {
         // First, check if the room exists with minimal data to avoid unnecessary loading
-        $roomExists = Room::where('id', $roomId)
-            ->where('status', 'available')
-            ->has('roomNumbers')
-            ->exists();
+        $room = Room::where('id', $roomId)
+            ->whereHas('roomNumbers', function ($query) {
+                $query->available();
+            })->first();
 
+
+        dd($room);
 
         // If the room doesn't exist, throw 404 early without loading unnecessary data
         if (!$roomExists) {
-            abort(404, 'The requested room does not exist, is unavailable, or cannot be booked.');
+            $notification = [
+                'message' => 'Room doesn\'t exist',
+                'alert-type' => 'error'
+            ];
+
+            // Redirect back with a success message
+            return redirect()->back()->with($notification);
         }
 
         $room = Room::with(['roomType:id,name', 'images:id,image_path', 'facilities:id,name'])
             ->select([
+                'id',
                 'room_type_id',
                 'total_adults',
                 'total_children',
@@ -67,6 +76,7 @@ class RoomsController extends Controller
             ->limit(2)
             ->get();
 
+        $request->flash();
         // Return the view with the room and other rooms data
         return view('frontend.pages.rooms.show', [
             'room' => $room,

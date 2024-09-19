@@ -33,6 +33,19 @@ return new class extends Migration
             $table->string('transaction_id')->nullable();
             $table->enum('payment_status', ['pending', 'completed', 'failed'])->nullable()->default('pending');
 
+            $table->string('first_name');
+            $table->string('last_name');
+
+            $table->string('phone_number');
+            $table->string('email')->nullable();
+
+            $table->char('country', 2);
+            $table->string('state')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('address')->nullable();
+
+            $table->string('code')->nullable();
+
             $table->enum('status', ['confirmed', 'cancelled', 'pending'])->default('pending');
             $table->timestamps();
 

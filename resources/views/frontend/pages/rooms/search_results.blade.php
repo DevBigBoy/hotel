@@ -38,14 +38,26 @@
                 @forelse ($rooms as $room)
                     <div class="col-lg-4 col-md-6">
                         <div class="room-card">
-                            <a href="{{ route('rooms.show', $room->id) }}">
+                            <a
+                                href="{{ route('rooms.show', [
+                                    'room' => $room->id,
+                                    'check_in_date' => $check_in_date,
+                                    'check_out_date' => $check_out_date,
+                                    'number_of_persons' => $number_of_persons,
+                                ]) }}">
                                 <img src="{{ asset('storage/' . $room->image) }}" height="300px" width="100%"
                                     alt="Images">
                             </a>
 
                             <div class="content">
                                 <h3>
-                                    <a href="{{ route('rooms.show', $room->id) }}">
+                                    <a
+                                        href="{{ route('rooms.show', [
+                                            'room' => $room->id,
+                                            'check_in_date' => $check_in_date,
+                                            'check_out_date' => $check_out_date,
+                                            'number_of_persons' => $number_of_persons,
+                                        ]) }}">
                                         {{ $room->roomType->name }}
                                         Room
                                     </a>

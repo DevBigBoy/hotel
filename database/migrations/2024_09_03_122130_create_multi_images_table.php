@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('multi_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->constrained('rooms')->cascadeOnDelete();
-            $table->string('image_path', 255); // Path to the image
-            $table->boolean('is_main')->default(false);
+            $table->string('image_path'); // Path to the image
             $table->timestamps();
         });
     }

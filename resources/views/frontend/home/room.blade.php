@@ -14,7 +14,7 @@
                             <div class="col-lg-5 col-md-4 p-0">
                                 <div class="room-card-img">
                                     <a href="{{ route('rooms.show', $room->id) }}">
-                                        <img src="{{ asset('storage/' . $room->image) }}" alt="Images">
+                                        <img src="{{ asset('storage/' . $room->image) }}" alt="Images" width="300px">
                                     </a>
                                 </div>
                             </div>
@@ -22,11 +22,12 @@
                             <div class="col-lg-7 col-md-8 p-0">
                                 <div class="room-card-content">
                                     <h3>
-                                        <a href="{{ route('rooms.show', $room->id) }}">{{ $room->roomType->name }}
-                                            Room</a>
+                                        <a href="{{ route('rooms.show', $room->id) }}">
+                                            {{ $room->roomType->name }} Room
+                                        </a>
                                     </h3>
 
-                                    <span>{{ $room->price_per_night }} L.E / Per Night </span>
+                                    <span>{{ $room->price_per_night }} / Per Night </span>
 
                                     <div class="rating">
                                         <i class='bx bxs-star'></i>

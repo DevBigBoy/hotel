@@ -16,4 +16,9 @@ class RoomNumber extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 'available');
+    }
 }

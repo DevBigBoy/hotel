@@ -2,81 +2,116 @@
 
 namespace App\Services;
 
-use App\Models\Booking;
-use Exception;
 use Carbon\Carbon;
 use App\Models\Room;
+use App\Models\Booking;
 use Carbon\CarbonPeriod;
+use InvalidArgumentException;
 use App\Models\RoomBookedDate;
+use Illuminate\Support\LazyCollection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+
 
 class RoomAvailabilityService
 {
     /**
-     * Check room availability for given dates and number of persons.
+     * Check room availability based on date range and number of persons.
      *
-     * @param  string  $checkInDate
-     * @param  string  $checkOutDate
-     * @param  int     $numberOfPersons
-     * @return array|bool
+     * @param string $checkInDate
+     * @param string $checkOutDate
+     * @param int $numberOfPersons
+     * @return EloquentCollection
+     * @throws InvalidArgumentException
      */
-
-    public function checkAvailability($checkInDate, $checkOutDate, $numberOfPersons)
+    public function checkAvailability(string $checkInDate, string $checkOutDate, int $numberOfPersons): LazyCollection
     {
-        try {
-            // Parse check-in and check-out dates
-            $checkInDate = Carbon::parse($checkInDate);
-            $checkOutDate = Carbon::parse($checkOutDate)->subDay(); // Inclusive range
+        // Step 1: Parse and adjust check-out date
+        $checkInDate = Carbon::parse($checkInDate);
+        $checkOutDate = Carbon::parse($checkOutDate)->subDay(); // Inclusive range
 
-            // Generate date range array
-            $dateRange = CarbonPeriod::create($checkInDate, $checkOutDate)->toArray();
-            $dates = array_map(fn($date) => $date->format('Y-m-d'), $dateRange);
+        // Step 2: Validate the date range
+        if ($checkInDate->gt($checkOutDate)) {
+            throw new InvalidArgumentException('Check-in date cannot be after check-out date.');
+        }
 
-            // Get distinct booking IDs for the given dates
+        // Step 3: Generate date range array
+        $dates = $this->generateDateRange($checkInDate, $checkOutDate);
 
-            // Get distinct booking IDs for the given dates
-            $bookingIds = RoomBookedDate::whereIn('book_date', $dates)
-                ->distinct()
-                ->pluck('booking_id')
-                ->toArray();
+        // Step 4: Get distinct booking IDs for the date range
+        $bookingIds = $this->getBookedDates($dates);
 
-            // Fetch available rooms with room type and room count
-            $rooms = Room::with('roomType')
-                ->withCount('roomNumbers')
-                ->where('status', 'available')
-                ->get();
+        // Step 5: Filter and return available rooms
+        return $this->filterRooms($bookingIds, $numberOfPersons);
+    }
 
-            // Filter rooms based on the number of persons
+    /**
+     * Generate the date range array in 'Y-m-d' format.
+     *
+     * @param Carbon $checkInDate
+     * @param Carbon $checkOutDate
+     * @return array
+     */
+    protected function generateDateRange(Carbon $checkInDate, Carbon $checkOutDate): array
+    {
+        $dateRange = CarbonPeriod::create($checkInDate, $checkOutDate);
+        // Convert the generator to an array
+        return array_map(fn($date) => $date->format('Y-m-d'), iterator_to_array($dateRange));
+    }
 
-            $filteredRooms = $rooms->map(function ($room) use ($numberOfPersons, $bookingIds) {
-                // Get bookings for this room
-                $bookings = Booking::whereIn('id', $bookingIds)
-                    ->where('rooms_id', $room->id)
-                    ->withCount('booking_rooms')
-                    ->get();
+    /**
+     * Get distinct booking IDs for the provided date range.
+     *
+     * @param array $dates
+     * @return array
+     */
+    protected function getBookedDates(array $dates): array
+    {
+        return RoomBookedDate::whereIn('book_date', $dates)
+            ->distinct()
+            ->pluck('booking_id')
+            ->toArray();
+    }
 
-                // Calculate total booked rooms
-                $totalBookedRooms = $bookings->sum('booking_rooms_count');
-
-                // Calculate available rooms for this room type
+    /**
+     * Filter available rooms based on booking IDs and number of persons.
+     *
+     * @param array $bookingIds
+     * @param int $numberOfPersons
+     * @return EloquentCollection
+     */
+    protected function filterRooms(array $bookingIds, int $numberOfPersons): LazyCollection
+    {
+        return Room::with(['roomType', 'roomNumbers'])
+            ->withCount('roomNumbers')
+            ->where('status', 'available')
+            ->lazy()
+            ->map(function ($room) use ($bookingIds, $numberOfPersons) {
+                $totalBookedRooms = $this->getTotalBookedRooms($room->id, $bookingIds);
                 $availableRooms = $room->room_numbers_count - $totalBookedRooms;
 
-                // Check if room can accommodate the number of persons
+                // Only return rooms that meet the person's requirement and have availability
                 if ($availableRooms > 0 && $numberOfPersons <= $room->total_adults) {
-                    return [
-                        'room_id' => $room->id,
-                        'room_type' => $room->roomType->name,
-                        'available_rooms' => $availableRooms,
-                        'capacity' => $room->total_adults,
-                    ];
+                    $room->available_rooms = $availableRooms;
+                    return $room;
                 }
-
                 return null;
-            })->filter()->values();
+            })
+            ->filter();
+    }
 
-            // Return filtered rooms or false if none available
-            return $filteredRooms->isNotEmpty() ? $filteredRooms : false;
-        } catch (Exception $th) {
-            //throw $th;
-        }
+    /**
+     * Get the total number of booked rooms for a specific room and booking IDs.
+     *
+     * @param int $roomId
+     * @param array $bookingIds
+     * @return int
+     */
+    protected function getTotalBookedRooms(int $roomId, array $bookingIds): int
+    {
+        return Booking::whereIn('id', $bookingIds)
+            ->where('rooms_id', $roomId)
+            ->withCount('booking_rooms')
+            ->get()
+            ->sum('booking_rooms_count');
     }
 }

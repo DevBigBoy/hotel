@@ -13,18 +13,24 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('room_type_id')->unique()->constrained('room_types')->cascadeOnDelete();
+            $table->foreignId('room_type_id')->constrained('room_types');
+
             $table->unsignedTinyInteger('total_adults')->default(0);
             $table->unsignedTinyInteger('total_children')->default(0);
             $table->unsignedTinyInteger('capacity')->default(0);
+
             $table->string('image')->nullable();
+
             $table->decimal('price_per_night', 8, 2);
-            $table->string('size', 50)->nullable();
-            $table->enum('view', ['see', 'hill']);
-            $table->enum('bed_style', ['queen', 'twin', 'king']);
-            $table->unsignedTinyInteger('discount')->default(0);
-            $table->text('short_desc')->nullable();
+            $table->decimal('discount', 8, 2)->nullable();
+
+            $table->string('bed_type');              // 'Single', 'Double', 'Queen', 'King'
+            $table->string('view_type')->nullable(); // 'Ocean view', 'City view'
+            $table->integer('room_size')->nullable(); // Room size in square feet/meters
+
+            $table->string('short_desc')->nullable();
             $table->text('description')->nullable();
+
             $table->enum('status', ['available', 'archived'])->default('available');
             $table->timestamps();
         });
