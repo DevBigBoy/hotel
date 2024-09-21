@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property int $available_rooms
+ */
 
 class Room extends Model
 {
@@ -17,14 +20,16 @@ class Room extends Model
         'capacity',
         'image',
         'price_per_night',
-        'size',
-        'view',
-        'bed_style',
         'discount',
+        'bed_type',
+        'view_type',
+        'room_size',
         'short_desc',
         'description',
-        'status' //['available', 'archived']
+        'status',
     ];
+
+    protected $appends = ['available_rooms'];
 
     public function roomType()
     {
@@ -53,10 +58,15 @@ class Room extends Model
         );
     }
 
-    // public function scopeWithAvailableRoomNumbersCount($query)
-    // {
-    //     return $query->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
-    //         $query->where('status', 'available');
-    //     }]);
-    // }
+    // Define the accessor for available_rooms
+    public function getAvailableRoomsAttribute()
+    {
+        return $this->attributes['available_rooms'] ?? 0; // Default to 0 if not set
+    }
+
+    // You can set this property dynamically like so
+    public function setAvailableRooms($value)
+    {
+        $this->attributes['available_rooms'] = $value;
+    }
 }

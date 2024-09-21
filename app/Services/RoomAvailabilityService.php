@@ -30,13 +30,14 @@ class RoomAvailabilityService
         $checkOutDate = Carbon::parse($checkOutDate)->subDay(); // Inclusive range
 
         // Step 2: Validate the date range
-        if ($checkInDate->gt($checkOutDate)) {
-            throw new InvalidArgumentException('Check-in date cannot be after check-out date.');
-        }
+        // if ($checkInDate->gt($checkOutDate)) {
+        //     throw new InvalidArgumentException('Check-in date cannot be after check-out date.');
+        // }
 
         // Step 3: Generate date range array
         $dates = $this->generateDateRange($checkInDate, $checkOutDate);
 
+        dd($dates);
         // Step 4: Get distinct booking IDs for the date range
         $bookingIds = $this->getBookedDates($dates);
 

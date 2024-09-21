@@ -24,21 +24,19 @@ class RoomUpdateRequest extends FormRequest
     {
         $roomId = $this->route('room')->id;
         return [
-            'room_type_id' => ['required', 'exists:room_types,id', Rule::unique('rooms', 'room_type_id')->ignore($roomId)],
+            'room_type_id' => ['required', 'exists:room_types,id'],
             'total_adults' => ['required', 'integer', 'min:0'],
             'total_children' => ['required', 'integer', 'min:0'],
             'capacity' => ['required', 'integer', 'min:0'],
             'image' => ['nullable', 'image', 'max:2024', 'mimes:jpeg,png,jpg,gif,svg'],
             'price_per_night' => ['required', 'numeric', 'min:0'],
-            'size' => ['nullable', 'string', 'max:50'],
-            'view' => ['required', 'in:see,hill'],
-            'bed_style' => ['required', 'in:queen,twin,king'],
-            'discount' => ['required', 'integer', 'min:0', 'max:100'],
+            'room_size' => ['nullable', 'string', 'max:50'],
+            'view_type' => ['nullable', 'string', 'max:50'],
+            'bed_type' => ['nullable', 'string', 'max:50'],
+            'discount' => ['nullable', 'numeric', 'min:0'],
             'short_desc' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'in:available,archived'],
-            'facilities' => ['array'],
-            'facilities.*' => ['exists:facilities,id'],
         ];
     }
 }

@@ -82,13 +82,15 @@
                                 <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab"
                                     aria-selected="true">
                                     <div class="d-flex align-items-center">
-                                        <div class="tab-icon"><i class="bx bx-home font-18 me-1"></i>
+                                        <div class="tab-icon">
+                                            <i class="bx bx-home font-18 me-1"></i>
                                         </div>
                                         <div class="tab-title">Basic</div>
                                     </div>
                                 </a>
                             </li>
                         </ul>
+
                         <div class="tab-content py-3">
                             <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
 
@@ -106,9 +108,9 @@
                                                     <span class="required text-danger">*</span>
                                                 </label>
                                                 <select id="roomType" class="form-select" name="room_type_id">
-                                                    <option value="">Choose...</optionv>
-                                                        @foreach ($room_types as $room_type)
-                                                    <option value="{{ $room_type->id }}">{{ $room_type->name }}</option>
+                                                    <option value="">Choose...</option>
+                                                    @foreach ($room_types as $room_type)
+                                                        <option value="{{ $room_type->id }}">{{ $room_type->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('room_type_id')
@@ -131,7 +133,7 @@
                                                 @enderror
                                             </div>
 
-                                            <!-- -->
+                                            <!--Capacity -->
                                             <div class="col-md-4">
                                                 <label for="room_capacity" class="form-label">Room Capacity</label>
                                                 <input type="number" class="form-control" name="capacity"
@@ -195,33 +197,24 @@
                                                 @enderror
                                             </div>
 
-
-
                                             <div class="col-md-6">
-                                                <label for="input7" class="form-label">
+                                                <label for="bed_type" class="form-label">
                                                     Bed Style <span class="required text-danger">*</span>
                                                 </label>
-                                                <select id="input7" class="form-select" name="bed_style">
-                                                    <option value="">Choose...</option>
-                                                    <option value="queen">Queen Bed</option>
-                                                    <option value="twin">Twin Bed</option>
-                                                    <option value="king">King Bed</option>
-                                                </select>
-                                                @error('bed_style')
+                                                <input type="text" name="bed_type" class="form-control"
+                                                    id="total_adults" placeholder="bed type">
+                                                @error('bed_type')
                                                     <span class="text text-danger text-center">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="input7" class="form-label">
+                                                <label for="view_type" class="form-label">
                                                     Room View <span class="required text-danger">*</span>
                                                 </label>
-                                                <select id="input7" class="form-select" name="view">
-                                                    <option value="">Choose...</option>
-                                                    <option value="see">Sea View</option>
-                                                    <option value="hill">Hill View</option>
-                                                </select>
-                                                @error('view')
+                                                <input type="text" name="view_type" class="form-control"
+                                                    id="view_type" placeholder="View">
+                                                @error('view_type')
                                                     <span class="text text-danger text-center">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -241,7 +234,7 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="discount" class="form-label">Discount % </label>
+                                                <label for="discount" class="form-label">After Discount </label>
                                                 <input type="number" @class(['form-control', 'is-invalid' => $errors->has('discount')]) id="discount"
                                                     name="discount" placeholder="discount %">
 
@@ -249,14 +242,16 @@
                                                     <span class="text text-danger text-center">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <!-- -->
-                                            <div class="col-md-4">
-                                                <label for="size" class="form-label">Size <span
-                                                        class="required text-danger">*</span></label>
-                                                <input type="text" name="size" @class(['form-control', 'is-invalid' => $errors->has('size')])
-                                                    id="size" placeholder="size">
 
-                                                @error('size')
+                                            <!-- Size -->
+                                            <div class="col-md-4">
+                                                <label for="size" class="form-label">
+                                                    Size <span class="required text-danger">*</span>
+                                                </label>
+                                                <input type="text" name="room_size" @class(['form-control', 'is-invalid' => $errors->has('room_size')])
+                                                    id="room_size" placeholder="room_size">
+
+                                                @error('room_size')
                                                     <span class="text text-danger text-center">{{ $message }}</span>
                                                 @enderror
                                             </div>
