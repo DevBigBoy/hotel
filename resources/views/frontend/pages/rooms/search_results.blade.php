@@ -44,6 +44,7 @@
                                     'check_in_date' => $check_in_date,
                                     'check_out_date' => $check_out_date,
                                     'number_of_persons' => $number_of_persons,
+                                    'number_of_rooms' => $number_of_rooms,
                                 ]) }}">
                                 <img src="{{ asset('storage/' . $room->image) }}" height="300px" width="100%"
                                     alt="Images">
@@ -57,6 +58,7 @@
                                             'check_in_date' => $check_in_date,
                                             'check_out_date' => $check_out_date,
                                             'number_of_persons' => $number_of_persons,
+                                            'number_of_rooms' => $number_of_rooms,
                                         ]) }}">
                                         {{ $room->roomType->name }}
                                         Room

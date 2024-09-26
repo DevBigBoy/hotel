@@ -10,16 +10,24 @@ class RoomsController extends Controller
 {
     public function index()
     {
-        $rooms = Room::with(['roomType:id,name'])
-            ->select([
-                'id',
-                'room_type_id',
-                'image',
-                'price_per_night',
-            ])
+        $rooms = Room::select([
+            'id',
+            'room_type_id',
+            'image',
+            'price_per_night',
+            'status',
+        ])
+            ->with(['roomType:id,name'])
+            ->withCount(['roomNumbers' => function ($query) {
+                $query->where('status', 'available');
+            }])
             ->where('status', 'available')
-            ->has('roomNumbers')
+            ->whereHas('roomNumbers', function ($query) {
+                $query->where('status', 'available');
+            })
             ->get();
+
+        // return response()->json($rooms);
 
         return view('frontend.pages.rooms.index', [
             'rooms' => $rooms
@@ -28,59 +36,82 @@ class RoomsController extends Controller
 
     public function show(Request $request, string $roomId)
     {
-        // First, check if the room exists with minimal data to avoid unnecessary loading
-        $room = Room::where('id', $roomId)
-            ->whereHas('roomNumbers', function ($query) {
-                $query->available();
-            })->first();
+        $request->flash();
 
+        // First, check if the room exists with the required data
+        $room = Room::select([
+            'id',
+            'room_type_id',
+            'total_adults',
+            'total_children',
+            'capacity',
+            'image',
+            'price_per_night',
+            'discount',
+            'bed_type',
+            'view_type',
+            'room_size',
+            'short_desc',
+            'description',
+            'status',
+        ])
+            // Eager load related data only if necessary
+            ->with([
+                'roomType:id,name',
+                'images:id,image_path,room_id', // Include room_id in images for relationship
+                'facilities:id,name',
+            ])
+            // Count available room numbers
+            ->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
+                $query->where('status', 'available');
+            }])
+            ->where('id', $roomId)
+            ->first();
 
-        dd($room);
-
-        // If the room doesn't exist, throw 404 early without loading unnecessary data
-        if (!$roomExists) {
+        // If the room is not available, return with an error
+        if (!$room || $room->available_room_numbers_count <= 0) {
             $notification = [
-                'message' => 'Room doesn\'t exist',
+                'message' => 'No rooms available',
                 'alert-type' => 'error'
             ];
-
-            // Redirect back with a success message
             return redirect()->back()->with($notification);
         }
 
-        $room = Room::with(['roomType:id,name', 'images:id,image_path', 'facilities:id,name'])
-            ->select([
-                'id',
-                'room_type_id',
-                'total_adults',
-                'total_children',
-                'capacity',
-                'image',
-                'price_per_night',
-                'size',
-                'view',
-                'bed_style',
-                'discount',
-                'short_desc',
-                'description',
-            ])
-            ->findOrFail($roomId);
 
         // Fetch other rooms excluding the current room and limit to 2
-        $other_rooms = Room::where('id', '!=', $room->id)
-            ->with(['roomType:id,name'])
-            ->select(['id', 'room_type_id', 'image', 'short_desc', 'price_per_night', 'capacity', 'view', 'bed_style'])
+        $other_rooms = Room::select([
+            'id',
+            'room_type_id',
+            'capacity',
+            'image',
+            'price_per_night',
+            'discount',
+            'bed_type',
+            'view_type',
+            'room_size',
+            'short_desc',
+            'status',
+        ])
+            ->with([
+                'roomType:id,name',
+            ])
+            ->withCount(['roomNumbers as available_room_numbers_count' => function ($query) {
+                $query->where('status', 'available');
+            }])
+            ->where('id', '!=', $room->id)
             ->where('status', 'available')
-            ->has('roomNumbers')
+            ->having('available_room_numbers_count', '>', 0)
             ->orderBy('id', 'DESC')
             ->limit(2)
             ->get();
 
-        $request->flash();
-        // Return the view with the room and other rooms data
-        return view('frontend.pages.rooms.show', [
-            'room' => $room,
-            'other_rooms' => $other_rooms
-        ]);
+        // Return the view with the room and other available rooms
+        return view('frontend.pages.rooms.show', compact('room', 'other_rooms'));
     }
+
+
+
+
+
+    public function CheckRoomAvailability(Request $request) {}
 }

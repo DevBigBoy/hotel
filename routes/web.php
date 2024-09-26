@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
 /** Rooms */
 Route::get('rooms', [RoomsController::class, 'index'])->name('rooms.index');
 Route::get('rooms/{room}', [RoomsController::class, 'show'])->name('rooms.show');
+Route::get('check-room-availability', [RoomsController::class, 'CheckRoomAvailability'])->name('check-room-availability');
 
 Route::get('booking-search', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
 

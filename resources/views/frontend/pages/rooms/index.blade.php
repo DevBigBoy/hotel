@@ -11,7 +11,7 @@
                         <a href="{{ route('home') }}">Home</a>
                     </li>
                     <li><i class='bx bx-chevron-right'></i></li>
-                    <li>Rooms</li>
+                    <li>Available Rooms</li>
                 </ul>
                 <h3>Rooms</h3>
             </div>
@@ -32,7 +32,8 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="room-card">
                             <a href="{{ route('rooms.show', $room->id) }}">
-                                <img src="{{ asset('storage/' . $room->image) }}" alt="Images">
+                                <img src="{{ asset('storage/' . $room->image) }}" alt="Images" width="500px"
+                                    height="300px">
                             </a>
 
                             <div class="content">
@@ -43,6 +44,10 @@
                                 <ul>
                                     <li class="text-color">{{ $room->price_per_night }} L.E</li>
                                     <li class="text-color">Per Night</li>
+                                </ul>
+                                <ul>
+                                    <li class="text-color">Available Rooms</li>
+                                    <li class="text-color">{{ $room->room_numbers_count }}</li>
                                 </ul>
 
                                 <div class="rating text-color">

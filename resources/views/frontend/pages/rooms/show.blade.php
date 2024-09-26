@@ -27,7 +27,14 @@
                     <div class="room-details-side">
                         <div class="side-bar-form">
                             <h3>Booking Sheet </h3>
-                            <form>
+                            <form method="POST" action="" id="bk_form">
+                                @csrf
+
+                                <input type="hidden" id="room_id" value="{{ $room->id }}">
+                                <input type="hidden" id="capacity" value="{{ $room->capacity }}">
+                                <input type="hidden" id="price_per_night" value="{{ $room->price_per_night }}">
+                                <input type="hidden" id="discount" value="{{ $room->discount }}">
+
                                 <div class="row align-items-center">
                                     <div class="col-lg-12">
 
@@ -62,11 +69,11 @@
                                         <div class="form-group">
                                             <label>GUESTS</label>
                                             <select class="form-control" name="number_of_persons">
-                                                <option @selected(old('number_of_persons') == '1')>01</option>
-                                                <option @selected(old('number_of_persons') == '2')>02</option>
-                                                <option @selected(old('number_of_persons') == '3')>03</option>
-                                                <option @selected(old('number_of_persons') == '4')>04</option>
-                                                <option @selected(old('number_of_persons') == '5')>04</option>
+                                                <option @selected(old('number_of_persons') == '1') value="1">01</option>
+                                                <option @selected(old('number_of_persons') == '2') value="2">02</option>
+                                                <option @selected(old('number_of_persons') == '3') value="3">03</option>
+                                                <option @selected(old('number_of_persons') == '4') value="4">04</option>
+                                                <option @selected(old('number_of_persons') == '5') value="5">04</option>
                                             </select>
                                         </div>
                                     </div>
@@ -74,14 +81,45 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label>Numbers of Rooms</label>
-                                            <select class="form-control" name="number_of_rooms">
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
+                                            <select class="form-control number_of_rooms" id="select_room"
+                                                name="number_of_rooms">
+                                                <option @selected(old('number_of_rooms') == 1) value="1">01</option>
+                                                <option @selected(old('number_of_rooms') == 2) value="2">02</option>
+                                                <option @selected(old('number_of_rooms') == 3) value="3">03</option>
+                                                <option @selected(old('number_of_rooms') == 4) value="4">04</option>
+                                                <option @selected(old('number_of_rooms') == 5) value="5">05</option>
                                             </select>
                                         </div>
+
+                                        <input type="hidden" name="available_room" id="available_room">
+                                        <p class="available_room"></p>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <table class="table">
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p> SubTotal</p>
+                                                    </td>
+                                                    <td style="text-align: right"><span class="t_subtotal">0</span> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p> Discount</p>
+                                                    </td>
+                                                    <td style="text-align: right"><span class="t_discount">0</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p> Total</p>
+                                                    </td>
+                                                    <td style="text-align: right"><span class="t_g_total">0</span></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                     <div class="col-lg-12 col-md-12">
@@ -104,12 +142,19 @@
                                     alt="Images">
                             </div>
 
-                            @foreach ($room->images as $image)
+                            @forelse ($room->images as $image)
                                 <div class="room-details-item">
                                     <img src="{{ asset('storage/' . $image->image_path) }}" alt="Images" width="550px"
                                         height="400px">
                                 </div>
-                            @endforeach
+                            @empty
+                                <div class="room-details-item">
+                                    <img src="{{ asset('storage/' . $room->image) }}" width="550" height="400px"
+                                        alt="Images">
+                                </div>
+                            @endforelse
+
+
 
                         </div>
 
@@ -205,8 +250,8 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <textarea name="message" class="form-control" cols="30" rows="8" required data-error="Write your message"
-                                                placeholder="Write your review here.... "></textarea>
+                                            <textarea name="message" class="form-control" cols="30" rows="8" required
+                                                data-error="Write your message" placeholder="Write your review here.... "></textarea>
                                         </div>
                                     </div>
 
@@ -289,3 +334,15 @@
     </div>
     <!-- Room Details Other -->
 @endsection
+
+
+@push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    $(document).ready(function(){
+    var check_in = {{ old('check_in_date') }};
+    var check_in = {{ old('check_in_date') }};
+    var check_in = {{ old('check_in_date') }};
+    var check_in = {{ old('check_in_date') }};
+    })
+@endpush
