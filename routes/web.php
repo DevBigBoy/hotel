@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CheckAvailabilityContorller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
@@ -21,15 +22,20 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.password');
 
     Route::get('mybookings', [ProfileController::class, 'booking'])->name('profile.booking');
+
+    Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 });
 
 
 /** Rooms */
 Route::get('rooms', [RoomsController::class, 'index'])->name('rooms.index');
 Route::get('rooms/{room}', [RoomsController::class, 'show'])->name('rooms.show');
-Route::get('check-room-availability', [RoomsController::class, 'CheckRoomAvailability'])->name('check-room-availability');
+Route::get('/check-room-availability', [RoomsController::class, 'CheckRoomAvailability'])->name('check_room_availability');
 
 Route::get('booking-search', [CheckAvailabilityContorller::class, 'checkAvailability'])->name('checkAvailability');
+
+
+
 
 /** Posts */
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');

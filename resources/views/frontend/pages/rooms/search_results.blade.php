@@ -1,5 +1,6 @@
 @extends('frontend.layouts.master')
 
+@section('page-title', 'Available Rooms')
 
 @section('content')
     <!-- Inner Banner -->
@@ -66,7 +67,7 @@
                                 </h3>
 
                                 <p class="card-text">
-                                    <strong class="text-color">Room Capacity:</strong> {{ $room->total_adults }} persons<br>
+                                    <strong class="text-color">Room Capacity:</strong> {{ $room->capacity }} persons<br>
                                     <strong class="text-color">Available Rooms:</strong> {{ $room->available_rooms }}<br>
                                     <strong class="text-color">Price:</strong> ${{ $room->price_per_night }} per night
                                 </p>

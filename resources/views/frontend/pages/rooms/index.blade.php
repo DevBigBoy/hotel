@@ -1,5 +1,6 @@
 @extends('frontend.layouts.master')
 
+@section('page-title', 'Available Rooms')
 
 @section('content')
     <!-- Inner Banner -->
@@ -38,8 +39,9 @@
 
                             <div class="content">
                                 <h3>
-                                    <a href="{{ route('rooms.show', $room->id) }}">{{ $room->roomType->name }}
-                                        Room</a>
+                                    <a href="{{ route('rooms.show', $room->id) }}">
+                                        {{ $room->roomType->name }} Room
+                                    </a>
                                 </h3>
                                 <ul>
                                     <li class="text-color">{{ $room->price_per_night }} L.E</li>
@@ -47,7 +49,7 @@
                                 </ul>
                                 <ul>
                                     <li class="text-color">Available Rooms</li>
-                                    <li class="text-color">{{ $room->room_numbers_count }}</li>
+                                    <li class="text-color">{{ $room->available_room_numbers_count }}</li>
                                 </ul>
 
                                 <div class="rating text-color">

@@ -27,13 +27,13 @@
                     <div class="room-details-side">
                         <div class="side-bar-form">
                             <h3>Booking Sheet </h3>
-                            <form method="POST" action="" id="bk_form">
+                            <form action="" method="post" id="bk_form">
                                 @csrf
-
                                 <input type="hidden" id="room_id" value="{{ $room->id }}">
-                                <input type="hidden" id="capacity" value="{{ $room->capacity }}">
-                                <input type="hidden" id="price_per_night" value="{{ $room->price_per_night }}">
-                                <input type="hidden" id="discount" value="{{ $room->discount }}">
+
+                                <input type="hidden" id="total_adult" value="{{ $room->capacity }}">
+                                <input type="hidden" id="room_price" value="{{ $room->price_per_night }}">
+                                <input type="hidden" id="discount_p" value="{{ $room->discount }}">
 
                                 <div class="row align-items-center">
                                     <div class="col-lg-12">
@@ -57,7 +57,7 @@
                                             <label>CHECK OUT TIME</label>
                                             <div class="input-group">
                                                 <input autocomplete="off" class="form-control dt_picker" type="text"
-                                                    name="check_out_date"
+                                                    name="check_out_date" id="check_out_date"
                                                     value="{{ old('check_out_date') ? date('Y-m-d', strtotime(old('check_out_date'))) : 'yyy-mm-dd' }}">
                                                 <span class="input-group-addon"></span>
                                             </div>
@@ -73,22 +73,27 @@
                                                 <option @selected(old('number_of_persons') == '2') value="2">02</option>
                                                 <option @selected(old('number_of_persons') == '3') value="3">03</option>
                                                 <option @selected(old('number_of_persons') == '4') value="4">04</option>
-                                                <option @selected(old('number_of_persons') == '5') value="5">04</option>
+                                                <option @selected(old('number_of_persons') == '5') value="5">05</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Numbers of Rooms</label>
-                                            <select class="form-control number_of_rooms" id="select_room"
-                                                name="number_of_rooms">
-                                                <option @selected(old('number_of_rooms') == 1) value="1">01</option>
-                                                <option @selected(old('number_of_rooms') == 2) value="2">02</option>
-                                                <option @selected(old('number_of_rooms') == 3) value="3">03</option>
-                                                <option @selected(old('number_of_rooms') == 4) value="4">04</option>
-                                                <option @selected(old('number_of_rooms') == 5) value="5">05</option>
-                                            </select>
+                                            @if ($room->available_room_numbers_count > 0)
+                                                <label for="number_of_rooms">Choose Number of Rooms:</label>
+                                                <select class="form-control number_of_rooms" name="number_of_rooms"
+                                                    id="select_room">
+
+                                                    @for ($i = 1; $i <= $room->available_room_numbers_count; $i++)
+                                                        <option @selected(old('number_of_rooms') == $i) value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            @else
+                                                <p>No rooms available</p>
+                                            @endif
                                         </div>
 
                                         <input type="hidden" name="available_room" id="available_room">
@@ -101,21 +106,19 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <p> SubTotal</p>
+                                                        <p>Total</p>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_subtotal">0</span> </td>
+                                                    <td style="text-align: right">
+                                                        <span class="total">0</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p> Discount</p>
+                                                        <p>Total After Discount</p>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_discount">0</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p> Total</p>
+                                                    <td style="text-align: right">
+                                                        <span class="total_after_discount">0</span>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_g_total">0</span></td>
                                                 </tr>
 
                                             </tbody>
@@ -278,7 +281,6 @@
             </div>
 
             <div class="row ">
-
                 @foreach ($other_rooms as $room)
                     <div class="col-lg-6">
                         <div class="room-card-two">
@@ -327,8 +329,6 @@
                         </div>
                     </div>
                 @endforeach
-
-
             </div>
         </div>
     </div>
@@ -339,10 +339,87 @@
 @push('scripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    $(document).ready(function(){
-    var check_in = {{ old('check_in_date') }};
-    var check_in = {{ old('check_in_date') }};
-    var check_in = {{ old('check_in_date') }};
-    var check_in = {{ old('check_in_date') }};
-    })
+    <script>
+        $(document).ready(function() {
+            var check_in = "{{ old('check_in_date') }}";
+            var check_out = "{{ old('check_out_date') }}";
+            var room_id = $("#room_id").val();
+
+            if (check_in != '' && check_out != '') {
+                getAvaility(check_in, check_out, room_id);
+            }
+
+            $("#check_out_date").on('change', function() {
+                var check_out = $(this).val();
+                var check_in = $("#check_in_date").val();
+
+                console.log(check_out);
+
+                if (check_in != '' && check_out != '') {
+                    getAvaility(check_in, check_out, room_id);
+                }
+            });
+
+            $(".number_of_rooms").on('change', function() {
+                var check_out = $("#check_out_date").val();
+                var check_in = $("#check_in_date").val();
+
+                if (check_in != '' && check_out != '') {
+                    getAvaility(check_in, check_out, room_id);
+                }
+            });
+        });
+
+        function getAvaility(check_in, check_out, room_id) {
+            $.ajax({
+                url: "{{ route('check_room_availability') }}",
+                data: {
+                    room_id: room_id,
+                    check_in: check_in,
+                    check_out: check_out
+                },
+
+                success: function(data) {
+                    $(".available_room").html('Availability : <span class="text-success">' + data[
+                        'available_room'] + ' Rooms</span>');
+                    $("#available_room").val(data['available_room']);
+                    price_calculate(data['total_nights']);
+                    // price_calculate(5);
+                }
+            });
+        }
+
+        function price_calculate(total_nights) {
+            var room_price = $("#room_price").val();
+            var discount_p = $("#discount_p").val();
+            var select_room = $("#select_room").val();
+
+            var total = room_price * total_nights * parseInt(select_room);
+
+            // var discount_price = (parseInt(discount_p) / 100) * sub_total;
+            var total_after_discount = discount_p * total_nights * parseInt(select_room);
+
+            $(".total").text(total);
+            $(".total_after_discount").text(total_after_discount);
+            // $(".t_g_total").text(sub_total - discount_price);
+        }
+
+        $("#bk_form").on('submit', function() {
+            var av_room = $("#available_room").val();
+            var select_room = $("#select_room").val();
+
+            if (parseInt(select_room) > av_room) {
+                alert('Sorry, you select maximum number of room');
+                return false;
+            }
+
+            var nmbr_person = $("#nmbr_person").val();
+            var total_adult = $("#total_adult").val();
+
+            if (parseInt(nmbr_person) > parseInt(total_adult)) {
+                alert('Sorry, you select maximum number of person');
+                return false;
+            }
+        })
+    </script>
 @endpush
