@@ -27,14 +27,37 @@
                     <div class="room-details-side">
                         <div class="side-bar-form">
                             <h3>Booking Sheet </h3>
-                            <form>
+
+                            <form action="{{ route('booking.store', $room->id) }}" method="post" id="bk_form">
+                                @csrf
+
+                                <input type="hidden" id="room_id" value="{{ $room->id }}">
+                                <input type="hidden" id="total_adult" value="{{ $room->capacity }}">
+                                <input type="hidden" id="room_price" value="{{ $room->price_per_night }}">
+                                <input type="hidden" id="discount_p" value="{{ $room->discount }}">
+
                                 <div class="row align-items-center">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Check in</label>
+                                            <label>CHECK IN TIME</label>
                                             <div class="input-group">
-                                                <input id="datetimepicker" type="text" class="form-control"
-                                                    placeholder="09/29/2020">
+                                                <input autocomplete="off" id="check_in_date" type="text"
+                                                    name="check_in_date" class="form-control dt_picker"
+                                                    value="{{ old('check_in_date') ? date('Y-m-d', strtotime(old('check_in_date'))) : 'yyy-mm-dd' }}">
+                                                <span class="input-group-addon"></span>
+                                            </div>
+
+                                            <i class='bx bxs-calendar'></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>CHECK OUT TIME</label>
+                                            <div class="input-group">
+                                                <input autocomplete="off" class="form-control dt_picker" type="text"
+                                                    name="check_out_date" id="check_out_date"
+                                                    value="{{ old('check_out_date') ? date('Y-m-d', strtotime(old('check_out_date'))) : 'yyy-mm-dd' }}">
                                                 <span class="input-group-addon"></span>
                                             </div>
                                             <i class='bx bxs-calendar'></i>
@@ -43,40 +66,61 @@
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Check Out</label>
-                                            <div class="input-group">
-                                                <input id="datetimepicker-check" type="text" class="form-control"
-                                                    placeholder="09/29/2020">
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                            <i class='bx bxs-calendar'></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>Numbers of Persons</label>
-                                            <select class="form-control">
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>03</option>
-                                                <option>04</option>
-                                                <option>05</option>
+                                            <label>GUESTS</label>
+                                            <select class="form-control" name="number_of_persons">
+                                                <option @selected(old('number_of_persons') == '1') value="1">01</option>
+                                                <option @selected(old('number_of_persons') == '2') value="2">02</option>
+                                                <option @selected(old('number_of_persons') == '3') value="3">03</option>
+                                                <option @selected(old('number_of_persons') == '4') value="4">04</option>
+                                                <option @selected(old('number_of_persons') == '5') value="5">05</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label>Numbers of Rooms</label>
-                                            <select class="form-control">
-                                                <option>01</option>
-                                                <option>02</option>
-                                                <option>03</option>
-                                                <option>04</option>
-                                                <option>05</option>
-                                            </select>
+                                            @if ($room->available_room_numbers_count > 0)
+                                                <label for="select_room">Choose Number of Rooms:</label>
+                                                <select class="form-control number_of_rooms" name="number_of_rooms"
+                                                    id="select_room">
+                                                    @for ($i = 1; $i <= $room->available_room_numbers_count; $i++)
+                                                        <option @selected(old('number_of_rooms') == $i) value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            @else
+                                                <p>No rooms available</p>
+                                            @endif
                                         </div>
+
+                                        <input type="hidden" name="available_room" id="available_room">
+                                        <p class="available_room"></p>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <table class="table">
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p>Total</p>
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span class="total">0</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Total After Discount</p>
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        <span class="total_after_discount">0</span>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                     <div class="col-lg-12 col-md-12">
@@ -86,6 +130,7 @@
                                     </div>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -93,6 +138,11 @@
                 <div class="col-lg-8">
                     <div class="room-details-article">
                         <div class="room-details-slider owl-carousel owl-theme">
+                            <div class="room-details-item">
+                                <img src="{{ asset('storage/' . $room->image) }}" width="550" height="400px"
+                                    alt="Images">
+                            </div>
+
                             @forelse ($room->images as $image)
                                 <div class="room-details-item">
                                     <img src="{{ asset('storage/' . $image->image_path) }}" alt="Images" width="550px"
@@ -104,6 +154,9 @@
                                         alt="Images">
                                 </div>
                             @endforelse
+
+
+
                         </div>
 
                         <div class="room-details-title">
@@ -125,7 +178,9 @@
                                     @foreach ($room->facilities as $facility)
                                         <li><a href="#">{{ $facility->name }}</a></li>
                                     @endforeach
+
                                 </ul>
+
                             </div>
 
                             <div class="row">
@@ -196,8 +251,8 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <textarea name="message" class="form-control" cols="30" rows="8" required data-error="Write your message"
-                                                placeholder="Write your review here.... "></textarea>
+                                            <textarea name="message" class="form-control" cols="30" rows="8" required
+                                                data-error="Write your message" placeholder="Write your review here.... "></textarea>
                                         </div>
                                     </div>
 
@@ -277,3 +332,78 @@
     </div>
     <!-- Room Details Other -->
 @endsection
+
+
+@push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var check_in = "{{ old('check_in_date') }}";
+            var check_out = "{{ old('check_out_date') }}";
+            var room_id = $("#room_id").val();
+
+            if (check_in != '' && check_out != '') {
+                getAvaility(check_in, check_out, room_id);
+            }
+
+            $("#check_out_date").on('change', function() {
+                var check_out = $(this).val();
+                var check_in = $("#check_in_date").val();
+
+                if (check_in != '' && check_out != '') {
+                    getAvaility(check_in, check_out, room_id);
+                }
+            });
+
+            $(".number_of_rooms").on('change', function() {
+                var check_out = $("#check_out_date").val();
+                var check_in = $("#check_in_date").val();
+
+                if (check_in != '' && check_out != '') {
+                    getAvaility(check_in, check_out, room_id);
+                }
+            });
+        });
+
+        function getAvaility(check_in, check_out, room_id) {
+            $.ajax({
+                url: "{{ route('check_room_availability') }}",
+                data: {
+                    room_id: room_id,
+                    check_in: check_in,
+                    check_out: check_out
+                },
+                success: function(data) {
+                    $(".available_room").html('Availability : <span class="text-success">' + data[
+                        'available_room'] + ' Rooms</span>');
+                    $("#available_room").val(data['available_room']);
+                    price_calculate(data['total_nights']);
+                }
+            });
+        }
+
+        function price_calculate(total_nights) {
+            var room_price = $("#room_price").val();
+            var discount_p = $("#discount_p").val();
+            var select_room = $("#select_room").val();
+
+            var total = room_price * total_nights * parseInt(select_room);
+
+            var total_after_discount = discount_p * total_nights * parseInt(select_room);
+
+            $(".total").text(total);
+            $(".total_after_discount").text(total_after_discount);
+        }
+
+        $("#bk_form").on('submit', function() {
+            var av_room = $("#available_room").val();
+            var select_room = $("#select_room").val();
+
+            if (parseInt(select_room) > av_room) {
+                alert('Sorry, you select maximum number of room');
+                return false;
+            }
+        })
+    </script>
+@endpush

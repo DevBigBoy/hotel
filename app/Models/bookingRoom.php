@@ -15,4 +15,13 @@ class BookingRoom extends Model
         'check_in_date',
         'check_out_date'
     ];
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
+
+    public function roomNumber()
+    {
+        return $this->belongsTo(RoomNumber::class, 'room_number_id');
+    }
 }

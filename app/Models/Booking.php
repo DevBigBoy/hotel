@@ -28,8 +28,13 @@ class Booking extends Model
         'status'
     ];
 
+    public function rooms()
+    {
+        return $this->belongsTo(Room::class, 'rooms_id');
+    }
+
     public function booking_rooms()
     {
-        return  $this->hasMany(BookingRoom::class, 'booking_id');
+        return $this->hasMany(BookingRoom::class, 'booking_id');
     }
 }

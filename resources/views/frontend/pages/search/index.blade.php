@@ -40,7 +40,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="room-card">
                             <a
-                                href="{{ route('rooms.show', [
+                                href="{{ route('booking_search_room_details', [
                                     'room' => $room->id,
                                     'check_in_date' => $check_in_date,
                                     'check_out_date' => $check_out_date,
@@ -54,7 +54,7 @@
                             <div class="content">
                                 <h3>
                                     <a
-                                        href="{{ route('rooms.show', [
+                                        href="{{ route('booking_search_room_details', [
                                             'room' => $room->id,
                                             'check_in_date' => $check_in_date,
                                             'check_out_date' => $check_out_date,
@@ -68,7 +68,7 @@
 
                                 <p class="card-text">
                                     <strong class="text-color">Room Capacity:</strong> {{ $room->capacity }} persons<br>
-                                    <strong class="text-color">Available Rooms:</strong> {{ $room->available_rooms }}<br>
+                                    <strong class="text-color">Available Rooms:</strong> {{ $room->room_numbers_count }}<br>
                                     <strong class="text-color">Price:</strong> ${{ $room->price_per_night }} per night
                                 </p>
 

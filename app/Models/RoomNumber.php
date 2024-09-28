@@ -22,6 +22,11 @@ class RoomNumber extends Model
         return $this->hasMany(RoomBookedDate::class);
     }
 
+    public function bookingRooms()
+    {
+        return $this->hasMany(BookingRoom::class, 'room_number_id');
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('status', 'available');
